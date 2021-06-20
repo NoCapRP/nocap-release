@@ -27,5 +27,5 @@ QBConfig.Server.closed = false -- Set server closed (no one can join except peop
 QBConfig.Server.closedReason = "We\'re still testing." -- Reason message to display when people can't join the server
 QBConfig.Server.uptime = 0 -- Time the server has been up.
 QBConfig.Server.whitelist = false -- Enable or disable whitelist on the server
-QBConfig.Server.discord = "https://discord.gg/D5WW7fy" -- Discord invite link
+QBConfig.Server.discord = "https://discord.gg/d4UuATDQS9" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
