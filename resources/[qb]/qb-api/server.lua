@@ -115,7 +115,7 @@ function handleKickAll(req, res)
     end
 	for k, v in pairs(QBCore.Functions.GetPlayers()) do
 		if v ~= src then 
-			DropPlayer(v, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our Discord for further information: https://discord.gg/ChangeInqb-apiServerLua")
+			DropPlayer(v, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
 		end
 	end
     res.send(json.encode({success=true}))
@@ -128,7 +128,7 @@ function handleKick(req, res)
     if ((playerId == nil) or (reason == nil)) then
         return fail(req, res)
     end
-    DropPlayer(playerId, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our Discord for further information: https://discord.gg/ChangeInqb-apiServerLua")
+    DropPlayer(playerId, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
     res.send(json.encode({success=true}))
     return true
 end

@@ -103,7 +103,7 @@ end
 
 QBCore.Functions.Kick = function(source, reason, setKickReason, deferrals)
 	local src = source
-	reason = "\n"..reason.."\n🔸 Check our Discord for further information: "..QBCore.Config.Server.discord
+	reason = "\n"..reason.."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9 "..QBCore.Config.Server.discord
 	if(setKickReason ~=nil) then
 		setKickReason(reason)
 	end
