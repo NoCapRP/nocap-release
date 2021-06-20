@@ -122,3 +122,4 @@ vfs-core.dll
 vfs-impl-server.dll
 voip-server-mumble.dll
 resources/\[bikepack\]/
+cache/
