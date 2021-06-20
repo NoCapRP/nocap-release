@@ -1,7 +1,7 @@
 -- CONFIG --
 
 -- The watermark text --
-servername = "NoCap RP: discord.gg/xyz"
+servername = ""
 
 -- The x and y offset (starting at the top left corner) --
 -- Default: 0.005, 0.001
