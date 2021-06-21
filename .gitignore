@@ -117,3 +117,10 @@ concrt140.dll
 conhost-server.dll
 CoreRT.dll
 debug-script.dll
+start_4107_default.bat
+FXServer/.gitignore
+txData/admins.json
+txData/default/config.json
+txData/default/data/playersDB.backup.json
+txData/default/data/playersDB.json
+txData/default/data/stats_heatmapData_v1.json
