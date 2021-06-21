@@ -124,3 +124,7 @@ txData/default/config.json
 txData/default/data/playersDB.backup.json
 txData/default/data/playersDB.json
 txData/default/data/stats_heatmapData_v1.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+.vs/ProjectSettings.json
+ServerStarter.bat
