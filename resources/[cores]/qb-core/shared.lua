@@ -6819,7 +6819,7 @@ QBShared.Jobs = {
 	},
 }
 
-QBShared.StarterItems = {
+QBShared.StarterItems = {[]
     --[[ ["phone"] = {amount = 1, item = "phone"},
     ["id_card"] = {amount = 1, item = "id_card"},
     ["driver_license"] = {amount = 0, item = "driver_license"}, ]]
