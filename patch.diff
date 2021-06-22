@@ -1,0 +1,9 @@
+diff --git a/resources/[qb]/cash_bossmenu/database.json b/resources/[qb]/cash_bossmenu/database.json
+index 67cde75..a8700ec 100644
+--- a/resources/[qb]/cash_bossmenu/database.json
++++ b/resources/[qb]/cash_bossmenu/database.json
+@@ -1 +1 @@
+-{"realestate":4542.96,"reporter":0,"tequilala":100,"tow":0,"taco":27,"police":2000000043417,"starbucks":0,"oxy":0,"ambulance":0,"lawyer":0,"casino":6499,"drugdealer":0,"vanilla":2750,"burgershot":3698,"ems":40192,"mechanic":139282,"coffeeshop":756,"doctor":100,"gundealer":0,"cardealer":7833000,"trucker":0}
+\ No newline at end of file
++{"realestate":4542.96,"reporter":0,"tequilala":100,"tow":0,"taco":27,"police":2000000043417,"starbucks":0,"oxy":0,"ambulance":0,"lawyer":0,"casino":6499,"drugdealer":0,"vanilla":2750,"burgershot":3698,"ems":40192,"mechanic":136632,"coffeeshop":756,"doctor":100,"gundealer":0,"cardealer":7833000,"trucker":0}
+\ No newline at end of file

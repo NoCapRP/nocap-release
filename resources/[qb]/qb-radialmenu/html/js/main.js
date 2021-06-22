@@ -34,12 +34,12 @@ function createMenu(items) {
             
             if (item.event !== null) {
                 if (item.data !== null) {
-                    $.post('http://qb-radialmenu/selectItem', JSON.stringify({
+                    $.post('https://qb-radialmenu/selectItem', JSON.stringify({
                         itemData: item,
                         data: item.data
                     }))
                 } else {
-                    $.post('http://qb-radialmenu/selectItem', JSON.stringify({
+                    $.post('https://qb-radialmenu/selectItem', JSON.stringify({
                         itemData: item
                     }))
                 }
