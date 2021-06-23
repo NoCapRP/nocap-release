@@ -3,12 +3,13 @@ local BrancardObject = nil
 local IsLayingOnBed = false
 
 local ValidVIEKELS = {
-    "asprinter",
-    "aeklasse",
+    "rambulance",
+    "16fire",
+    "dodgeEMS",
 }
 
 function CheckForVehicles()
-    local PlayerPed = PlayerPedId()
+    local PlayerPed = GetPlayerPed(-1)
     local PlayerPos = GetEntityCoords(PlayerPed)
     local veh = 0
     for k, v in pairs(ValidVIEKELS) do
@@ -22,7 +23,7 @@ end
 
 RegisterNetEvent('hospital:client:TakeBrancard')
 AddEventHandler('hospital:client:TakeBrancard', function()
-    local PlayerPed = PlayerPedId()
+    local PlayerPed = GetPlayerPed(-1)
     local PlayerPos = GetEntityCoords(PlayerPed)
     local Vehicle = CheckForVehicles()
 
@@ -49,12 +50,12 @@ end)
 
 RegisterNetEvent('hospital:client:RemoveBrancard')
 AddEventHandler('hospital:client:RemoveBrancard', function()
-    local PlayerPed = PlayerPedId()
+    local PlayerPed = GetPlayerPed(-1)
     local PlayerPos = GetOffsetFromEntityInWorldCoords(PlayerPed, 0, 1.5, 0)
 
     if BrancardObject ~= nil then
         local BCoords = GetEntityCoords(BrancardObject)
-        local Dist = #(PlayerPos - BCoords)
+        local Dist = GetDistanceBetweenCoords(PlayerPos.x, PlayerPos.y, PlayerPos.z, BCoords.x, BCoords.y, BCoords.z, true)
 
         if Dist < 3.0 then
             if DoesEntityExist(BrancardObject) then
@@ -73,7 +74,7 @@ AddEventHandler('hospital:client:RemoveBrancard', function()
 end)
 
 function SetClosestBrancard()
-    local Ped = PlayerPedId()
+    local Ped = GetPlayerPed(-1)
     local c = GetEntityCoords(Ped)
     local Object = GetClosestObjectOfType(c.x, c.y, c.z, 10.0, GetHashKey("prop_ld_binbag_01"), false, false, false)
 
@@ -92,13 +93,13 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        local PlayerPed = PlayerPedId()
+        local PlayerPed = GetPlayerPed(-1)
         local PlayerPos = GetEntityCoords(PlayerPed)
         
         if BrancardObject ~= nil then
             local ObjectCoords = GetEntityCoords(BrancardObject)
             local OffsetCoords = GetOffsetFromEntityInWorldCoords(BrancardObject, 0, 0.85, 0)
-            local Distance = #(PlayerPos - OffsetCoords)
+            local Distance = GetDistanceBetweenCoords(PlayerPos, OffsetCoords.x, OffsetCoords.y, OffsetCoords.z, true)
 
             if Distance <= 1.0 then
                 if not IsAttached then
@@ -107,7 +108,7 @@ Citizen.CreateThread(function()
                         AttachToBrancard()
                         IsAttached = true
                     end
-                    if IsControlJustPressed(0, 74) then
+                    if IsControlJustPressed(0, Keys["H"]) then
                         FreezeEntityPosition(BrancardObject, true)
                     end
                 else
@@ -121,7 +122,7 @@ Citizen.CreateThread(function()
                 if not IsLayingOnBed then
                     if not IsAttached then
                         DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z + 0.2, '~g~G~w~ - Laying down on the brancard')
-                        if IsControlJustPressed(0, 47) or IsDisabledControlJustPressed(0, 47) then
+                        if IsControlJustPressed(0, Keys["G"]) or IsDisabledControlJustPressed(0, Keys["G"]) then
                             LayOnBrancard()
                         end
                     end
@@ -132,7 +133,7 @@ Citizen.CreateThread(function()
                 else
                     if not IsAttached then
                         DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z + 0.2, '~g~G~w~ - getting off')
-                        if IsControlJustPressed(0, 47) or IsDisabledControlJustPressed(0, 47) then
+                        if IsControlJustPressed(0, Keys["G"]) or IsDisabledControlJustPressed(0, Keys["G"]) then
                             GetOffBrancard()
                         end
                     end
@@ -150,12 +151,12 @@ function GetClosestPlayer()
     local closestPlayers = QBCore.Functions.GetPlayersFromCoords()
     local closestDistance = -1
     local closestPlayer = -1
-    local coords = GetEntityCoords(PlayerPedId())
+    local coords = GetEntityCoords(GetPlayerPed(-1))
 
     for i=1, #closestPlayers, 1 do
         if closestPlayers[i] ~= PlayerId() then
             local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = #(pos - coords)
+            local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true)
 
             if closestDistance == -1 or closestDistance > distance then
                 closestPlayer = closestPlayers[i]
@@ -170,11 +171,11 @@ end
 
 RegisterNetEvent('qb-radialmenu:client:RemoveBrancardFromArea')
 AddEventHandler('qb-radialmenu:client:RemoveBrancardFromArea', function(PlayerPos, BObject)
-    local Ped = PlayerPedId()
+    local Ped = GetPlayerPed(-1)
     local Pos = GetEntityCoords(Ped)
 
     if Pos ~= PlayerPos then
-        local Distance = #(Pos - PlayerPos)
+        local Distance = GetDistanceBetweenCoords(Pos.x, Pos.y, Pos.z, PlayerPos.x, PlayerPos.y, PlayerPos.z, true)
 
         if BrancardObject ~= nil or BrancardObject ~= 0 then
             if BrancardObject == BObject then
@@ -227,7 +228,7 @@ end
 
 RegisterNetEvent('qb-radialmenu:Brancard:client:BusyCheck')
 AddEventHandler('qb-radialmenu:Brancard:client:BusyCheck', function(OtherId, type)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     if type == "lay" then
         LoadAnim("anim@gangops@morgue@table@")
         IsEntityPlayingAnim(entity, animDict, animName, p4)
@@ -303,15 +304,15 @@ Citizen.CreateThread(function()
                 end
             end
 
-            if IsPedShooting(PlayerPedId()) or IsPlayerFreeAiming(PlayerId()) or IsPedInMeleeCombat(PlayerPedId()) then
+            if IsPedShooting(GetPlayerPed(-1)) or IsPlayerFreeAiming(PlayerId()) or IsPedInMeleeCombat(GetPlayerPed(-1)) then
                 DetachBrancard()
             end
 
-            if IsPedDeadOrDying(PlayerPedId(), false) then
+            if IsPedDeadOrDying(GetPlayerPed(-1), false) then
                 DetachBrancard()
             end
 
-            if IsPedRagdoll(PlayerPedId()) then
+            if IsPedRagdoll(GetPlayerPed(-1)) then
                 DetachBrancard()
             end
         else
@@ -354,19 +355,19 @@ end
 
 
 function DetachBrancard()
-    local PlayerPed = PlayerPedId()
+    local PlayerPed = GetPlayerPed(-1)
     DetachEntity(BrancardObject, false, true)
-    ClearPedTasksImmediately(PlayerPedId())
+    ClearPedTasksImmediately(GetPlayerPed(-1))
     IsAttached = false
 end
 
 Citizen.CreateThread(function()
     Wait(1000)
-    local Ped = PlayerPedId()
+    local Ped = GetPlayerPed(-1)
     local Pos = GetEntityCoords(Ped)
     local Object = GetClosestObjectOfType(Pos.x, Pos.y, Pos.z, 5.0, GetHashKey("prop_ld_binbag_01"), false, false, false)
     DeleteObject(Object)
-    ClearPedTasksImmediately(PlayerPedId())
+    ClearPedTasksImmediately(GetPlayerPed(-1))
 end)
 
 AddEventHandler('onResourceStop', function(resource)
@@ -374,7 +375,7 @@ AddEventHandler('onResourceStop', function(resource)
         if BrancardObject ~= nil then
             DetachBrancard()
             DeleteObject(BrancardObject)
-            ClearPedTasksImmediately(PlayerPedId())
+            ClearPedTasksImmediately(GetPlayerPed(-1))
         end
     end
 end)

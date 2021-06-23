@@ -49,19 +49,19 @@ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferral
         CancelEvent()
 		return false
     end
-	--deferrals.update("\nChecking ban status...")
-    --local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-    --if(isBanned) then
-    --    QBCore.Functions.Kick(src, Reason, setKickReason, deferrals)
-    --    CancelEvent()
-    --    return false
-    --end
-	--deferrals.update("\nChecking whitelist status...")
-    --if(not QBCore.Functions.IsWhitelisted(src)) then
-    --    QBCore.Functions.Kick(src, 'You aren\'t whitelisted.', setKickReason, deferrals)
-    --    CancelEvent()
-    --    return false
-    --end
+	deferrals.update("\nChecking ban status...")
+    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
+    if(isBanned) then
+        QBCore.Functions.Kick(src, Reason, setKickReason, deferrals)
+        CancelEvent()
+        return false
+    end
+	deferrals.update("\nChecking whitelist status...")
+    if(not QBCore.Functions.IsWhitelisted(src)) then
+        QBCore.Functions.Kick(src, 'You aren\'t whitelisted.', setKickReason, deferrals)
+        CancelEvent()
+        return false
+    end
 	deferrals.update("\nChecking server status...")
     if(QBCore.Config.Server.closed and not IsPlayerAceAllowed(src, "qbadmin.join")) then
 		QBCore.Functions.Kick(_source, 'the server is closed:\n'..QBCore.Config.Server.closedReason, setKickReason, deferrals)

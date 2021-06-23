@@ -1,9 +1,12 @@
 QBCore = nil
 
 Citizen.CreateThread(function() 
-    while QBCore == nil do
-        TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
-        Citizen.Wait(200)
+    while true do
+        Citizen.Wait(10)
+        if QBCore == nil then
+            TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
+            Citizen.Wait(200)
+        end
     end
 end)
 
@@ -33,7 +36,7 @@ function setupSubItems()
         end
     end)
 
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = GetVehiclePedIsIn(GetPlayerPed(-1))
 
     if Vehicle ~= nil or Vehicle ~= 0 then
         local AmountOfSeats = GetVehicleModelNumberOfSeats(GetEntityModel(Vehicle))
@@ -141,10 +144,10 @@ function closeRadial(bool)
 end
 
 function getNearestVeh()
-    local pos = GetEntityCoords(PlayerPedId())
-    local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 20.0, 0.0)
 
-    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, GetPlayerPed(-1), 0)
     local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
     return vehicleHandle
 end
@@ -153,7 +156,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3)
 
-        if IsControlJustPressed(0, 288) then
+        if IsControlJustPressed(0, Keys["F1"]) then
             openRadial(true)
             SetCursorLocation(0.5, 0.5)
         end
@@ -181,7 +184,7 @@ end)
 
 RegisterNetEvent('qb-radialmenu:client:giveidkaart')
 AddEventHandler('qb-radialmenu:client:giveidkaart', function(data)
-    -- ??
+    print('Im a trigerd event :)')
 end)
 
 RegisterNetEvent('qb-radialmenu:client:openDoor')
@@ -189,7 +192,7 @@ AddEventHandler('qb-radialmenu:client:openDoor', function(data)
     local string = data.id
     local replace = string:gsub("door", "")
     local door = tonumber(replace)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     local closestVehicle = nil
 
     if IsPedInAnyVehicle(ped, false) then
@@ -231,7 +234,7 @@ AddEventHandler('qb-radialmenu:client:setExtra', function(data)
     local string = data.id
     local replace = string:gsub("extra", "")
     local extra = tonumber(replace)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     local veh = GetVehiclePedIsIn(ped)
     local enginehealth = 1000.0
     local bodydamage = 1000.0
@@ -239,7 +242,7 @@ AddEventHandler('qb-radialmenu:client:setExtra', function(data)
     if veh ~= nil then
         local plate = GetVehicleNumberPlateText(closestVehicle)
     
-        if GetPedInVehicleSeat(veh, -1) == PlayerPedId() then
+        if GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1) then
             if DoesExtraExist(veh, extra) then 
                 if IsVehicleExtraTurnedOn(veh, extra) then
                     enginehealth = GetVehicleEngineHealth(veh)
@@ -267,7 +270,7 @@ end)
 
 RegisterNetEvent('qb-radialmenu:trunk:client:Door')
 AddEventHandler('qb-radialmenu:trunk:client:Door', function(plate, door, open)
-    local veh = GetVehiclePedIsIn(PlayerPedId())
+    local veh = GetVehiclePedIsIn(GetPlayerPed(-1))
 
     if veh ~= 0 then
         local pl = GetVehicleNumberPlateText(veh)
@@ -291,7 +294,7 @@ local Seats = {
 
 RegisterNetEvent('qb-radialmenu:client:ChangeSeat')
 AddEventHandler('qb-radialmenu:client:ChangeSeat', function(data)
-    local Veh = GetVehiclePedIsIn(PlayerPedId())
+    local Veh = GetVehiclePedIsIn(GetPlayerPed(-1))
     local IsSeatFree = IsVehicleSeatFree(Veh, data.id)
     local speed = GetEntitySpeed(Veh)
     local HasHarnass = exports['qb-smallresources']:HasHarness()
@@ -300,7 +303,7 @@ AddEventHandler('qb-radialmenu:client:ChangeSeat', function(data)
 
         if IsSeatFree then
             if kmh <= 100.0 then
-                SetPedIntoVehicle(PlayerPedId(), Veh, data.id)
+                SetPedIntoVehicle(GetPlayerPed(-1), Veh, data.id)
                 QBCore.Functions.Notify('Your now on the  '..data.title..'!')
             else
                 QBCore.Functions.Notify('The vehicle goes to fast..')
@@ -327,3 +330,13 @@ function DrawText3Ds(x, y, z, text)
     DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
     ClearDrawOrigin()
 end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(3)
+
+        if IsControlJustPressed(0, 142) then
+            closeRadial(true)
+        end
+    end
+end)

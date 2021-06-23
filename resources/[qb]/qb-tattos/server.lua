@@ -10,10 +10,10 @@ QBCore.Functions.CreateCallback('SmallTattoos:GetPlayerTattoos', function(source
 		MySQL.Async.fetchAll('SELECT tattoos FROM players WHERE citizenid = @citizenid', {
 			['@citizenid'] = Player.PlayerData.citizenid
 		}, function(result)
-			if !result[1].tattoos ~= nil then
-				cb()
-			else
+			if result[1].tattoos then
 				cb(json.decode(result[1].tattoos))
+			else
+				cb()
 			end
 		end)
 	else

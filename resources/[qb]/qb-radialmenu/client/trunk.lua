@@ -68,16 +68,16 @@ end
 local cam = nil
 
 function getNearestVeh()
-    local pos = GetEntityCoords(PlayerPedId())
-    local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
+    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 20.0, 0.0)
 
-    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
+    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, GetPlayerPed(-1), 0)
     local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
     return vehicleHandle
 end
 
 function TrunkCam(bool)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     local vehicle = GetEntityAttachedTo(PlayerPedId())
     local drawPos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -5.5, 0)
 
@@ -102,7 +102,7 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        local ped = PlayerPedId()
+        local ped = GetPlayerPed(-1)
         local vehicle = GetEntityAttachedTo(PlayerPedId())
         local drawPos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -5.5, 0)
     
@@ -140,7 +140,7 @@ end)
 
 RegisterNetEvent('qb-trunk:client:KidnapGetIn')
 AddEventHandler('qb-trunk:client:KidnapGetIn', function(veh)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     local closestVehicle = veh
     local vehClass = GetVehicleClass(closestVehicle)
     local plate = GetVehicleNumberPlateText(closestVehicle)
@@ -173,7 +173,7 @@ AddEventHandler('qb-trunk:client:KidnapGetIn', function(veh)
                                 -- QBCore.Functions.Notify('Is de kofferbak dicht?', 'error', 2500)
                             -- end
                         else
-                            local ped = PlayerPedId()
+                            local ped = GetPlayerPed(-1)
                             local vehicle = GetEntityAttachedTo(PlayerPedId())
                             local plate = GetVehicleNumberPlateText(vehicle)
             
@@ -207,7 +207,7 @@ end)
 
 RegisterNetEvent('qb-trunk:client:GetIn')
 AddEventHandler('qb-trunk:client:GetIn', function(isKidnapped)
-    local ped = PlayerPedId()
+    local ped = GetPlayerPed(-1)
     local closestVehicle = getNearestVeh()
 
     if closestVehicle ~= 0 then
@@ -260,7 +260,7 @@ Citizen.CreateThread(function()
 
         if inTrunk then
             if not isKidnapped then
-                local ped = PlayerPedId()
+                local ped = GetPlayerPed(-1)
                 local vehicle = GetEntityAttachedTo(PlayerPedId())
                 local drawPos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -2.5, 0)
                 local plate = GetVehicleNumberPlateText(vehicle)
@@ -268,7 +268,7 @@ Citizen.CreateThread(function()
                 if DoesEntityExist(vehicle) then
                     DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.75, '[E] To get out of the trunk')
 
-                    if IsControlJustPressed(0, 38) then
+                    if IsControlJustPressed(0, Keys["E"]) then
                         if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
                             local vehCoords = GetOffsetFromEntityInWorldCoords(vehicle, 0, -5.0, 0)
                             DetachEntity(ped, true, true)
@@ -285,7 +285,7 @@ Citizen.CreateThread(function()
 
                     if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
                         DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, '[G] To close the trunk')
-                        if IsControlJustPressed(0, 47) then
+                        if IsControlJustPressed(0, Keys["G"]) then
                             if not IsVehicleSeatFree(vehicle, -1) then
                                 TriggerServerEvent('qb-radialmenu:trunk:server:Door', false, plate, 5)
                             else
@@ -294,7 +294,7 @@ Citizen.CreateThread(function()
                         end
                     else
                         DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, '[G] To open the trunk')
-                        if IsControlJustPressed(0, 47) then
+                        if IsControlJustPressed(0, Keys["G"]) then
                             if not IsVehicleSeatFree(vehicle, -1) then
                                 TriggerServerEvent('qb-radialmenu:trunk:server:Door', true, plate, 5)
                             else

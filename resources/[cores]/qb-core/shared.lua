@@ -3024,18 +3024,6 @@ QBShared.Vehicles = {
 ["trunkslots"] = 80,
 ["shop"] = "custom",
 },
-["s500"] = {
-["name"] = "Mercedes S500",
-["brand"] = "Mercedes",
-["model"] = "s500",
-["price"] = 200000,
-["category"] = "coupes",
-["hash"] = GetHashKey("s500"),
-["image"] = "https://img.gta5-mods.com/q75/images/2021-mercedes-benz-s500l/eeb43f-QQ%E5%9B%BE%E7%89%8720210614171748.jpg",
-["trunkspace"] = 100000,
-["trunkslots"] = 80,
-["shop"] = "custom",
-},
 ["rmode63s"] = {
 ["name"] = "Mercedes E63S",
 ["brand"] = "Dodge",
@@ -6831,8 +6819,8 @@ QBShared.Jobs = {
 	},
 }
 
-QBShared.StarterItems = {[]
-    --[[ ["phone"] = {amount = 1, item = "phone"},
+QBShared.StarterItems = {
+    ["phone"] = {amount = 1, item = "phone"}--[[ ,
     ["id_card"] = {amount = 1, item = "id_card"},
     ["driver_license"] = {amount = 0, item = "driver_license"}, ]]
 }

@@ -1,22 +1,17 @@
-fx_version 'cerulean'
-game 'gta5'
-
-description 'QB-RadialMenu'
-version '1.0.0'
+resource_manifest_version "44febabe-d386-4d18-afbe-5e627f4af937"
 
 ui_page "html/index.html"
 
 client_scripts {
-    "config.lua",
     "client/main.lua",
-    "client/clothing.lua",
     "client/trunk.lua",
     "client/brancard.lua",
+	"config.lua",
 }
 
 server_scripts {
+	"server/main.lua",
     "config.lua",
-    "server/main.lua",
     "server/trunk.lua",
     "server/brancard.lua",
 }
