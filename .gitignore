@@ -117,7 +117,6 @@ concrt140.dll
 conhost-server.dll
 CoreRT.dll
 debug-script.dll
-start_4107_default.bat
 FXServer/.gitignore
 txData/admins.json
 txData/default/config.json
