@@ -18,111 +18,113 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
         if isLoggedIn then
-            if PlayerJob.name == "police" then
-                local pos = GetEntityCoords(PlayerPedId())
+            if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'police9' or PlayerJob.name == 'police10' then
+                local pos = GetEntityCoords(GetPlayerPed(-1))
 
                 for k, v in pairs(Config.Locations["duty"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 5 then
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 5) then
+                        if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
                             if not onDuty then
-                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Get on duty")
+                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Go On Duty")
                             else
-                                DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Get off duty")
+                                DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Go Off Duty")
                             end
-                            if IsControlJustReleased(0, 38) then
+                            if IsControlJustReleased(0, Keys["E"]) then
                                 onDuty = not onDuty
                                 TriggerServerEvent("police:server:UpdateCurrentCops")
                                 TriggerServerEvent("QBCore:ToggleDuty")
                                 TriggerServerEvent("police:server:UpdateBlips")
                                 TriggerEvent('qb-policealerts:ToggleDuty', onDuty)
+                                TriggerServerEvent('hospital:server:SetArmor', 100)
+                                SetPedArmour(GetPlayerPed(-1), 100)
                             end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                            DrawText3D(v.x, v.y, v.z, "on/off duty")
+                        elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2.5) then
+                            DrawText3D(v.x, v.y, v.z, "In / Out of service")
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["evidence"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 2 then
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.0 then
-                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ -    Evidence stash")
-                            if IsControlJustReleased(0, 38) then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2) then
+                        if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.0) then
+                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Evidence box")
+                            if IsControlJustReleased(0, Keys["E"]) then
                                 TriggerServerEvent("inventory:server:OpenInventory", "stash", "policeevidence", {
                                     maxweight = 4000000,
                                     slots = 500,
                                 })
                                 TriggerEvent("inventory:client:SetCurrentStash", "policeevidence")
                             end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                            DrawText3D(v.x, v.y, v.z, "evidence stash")
+                        elseif (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) < 1.5) then
+                            DrawText3D(v.x, v.y, v.z, "Evidence box")
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["evidence2"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 2 then
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.0 then
-                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - evidence stash")
-                            if IsControlJustReleased(0, 38) then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2) then
+                        if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.0) then
+                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Evidence box")
+                            if IsControlJustReleased(0, Keys["E"]) then
                                 TriggerServerEvent("inventory:server:OpenInventory", "stash", "policeevidence2", {
                                     maxweight = 4000000,
                                     slots = 500,
                                 })
                                 TriggerEvent("inventory:client:SetCurrentStash", "policeevidence2")
                             end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                            DrawText3D(v.x, v.y, v.z, "evidence stash")
+                        elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                            DrawText3D(v.x, v.y, v.z, "Evidence box")
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["evidence3"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 2 then
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.0 then
-                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Evidence stash")
-                            if IsControlJustReleased(0, 38) then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2) then
+                        if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.0) then
+                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Evidence box")
+                            if IsControlJustReleased(0, Keys["E"]) then
                                 TriggerServerEvent("inventory:server:OpenInventory", "stash", "policeevidence3", {
                                     maxweight = 4000000,
                                     slots = 500,
                                 })
                                 TriggerEvent("inventory:client:SetCurrentStash", "policeevidence3")
                             end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                            DrawText3D(v.x, v.y, v.z, "evidence stash")
+                        elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                            DrawText3D(v.x, v.y, v.z, "Evidence box")
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["trash"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 2 then
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.0 then
-                            DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Bin")
-                            if IsControlJustReleased(0, 38) then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2) then
+                        if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.0) then
+                            DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Garbage can")
+                            if IsControlJustReleased(0, Keys["E"]) then
                                 TriggerServerEvent("inventory:server:OpenInventory", "stash", "policetrash", {
                                     maxweight = 4000000,
                                     slots = 300,
                                 })
                                 TriggerEvent("inventory:client:SetCurrentStash", "policetrash")
                             end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                            DrawText3D(v.x, v.y, v.z, "Bin")
+                        elseif (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) < 1.5) then
+                            DrawText3D(v.x, v.y, v.z, "Garbage can")
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["vehicle"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 7.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 7.5) then
                          if onDuty then
                              DrawMarker(2, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 0, 0, 222, false, false, false, true, false, false, false)
-                             if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                 if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                     DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Store vehicle")
+                             if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                                 if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                     DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Store the vehicle")
                                  else
                                      DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Vehicles")
                                  end
-                                 if IsControlJustReleased(0, 38) then
-                                     if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                         QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                 if IsControlJustReleased(0, Keys["E"]) then
+                                     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                         QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
                                      else
                                          MenuGarage()
                                          currentGarage = k
@@ -136,18 +138,18 @@ Citizen.CreateThread(function()
                 end
 
                 for k, v in pairs(Config.Locations["impound"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 7.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 7.5) then
                         if onDuty then
                             DrawMarker(2, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 0, 0, 222, false, false, false, true, false, false, false)
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Impound Vehicle")
+                            if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                                if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Store the vehicle")
                                 else
-                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Police Impound")
+                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Vehicles")
                                 end
-                                if IsControlJustReleased(0, 38) then
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                if IsControlJustReleased(0, Keys["E"]) then
+                                    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                        QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
                                     else
                                         MenuImpound()
                                         currentGarage = k
@@ -161,26 +163,26 @@ Citizen.CreateThread(function()
                 end
 
                 for k, v in pairs(Config.Locations["helicopter"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 7.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 7.5) then
                         if onDuty then
                             DrawMarker(2, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 0, 0, 222, false, false, false, true, false, false, false)
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Store helicopter")
+                            if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                                if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Store the helicopter")
                                 else
-                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Take a helicopter")
+                                    DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Helicopter package")
                                 end
-                                if IsControlJustReleased(0, 38) then
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                if IsControlJustReleased(0, Keys["E"]) then
+                                    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+                                        QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
                                     else
                                         local coords = Config.Locations["helicopter"][k]
                                         QBCore.Functions.SpawnVehicle(Config.Helicopter, function(veh)
-                                            SetVehicleNumberPlateText(veh, "ZULU"..tostring(math.random(1000, 9999)))
-                                            SetEntityHeading(veh, coords.w)
+                                            SetVehicleNumberPlateText(veh, "qb"..tostring(math.random(1000, 9999)))
+                                            SetEntityHeading(veh, coords.h)
                                             exports['LegacyFuel']:SetFuel(veh, 100.0)
                                             closeMenuFull()
-                                            TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+                                            TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
                                             TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
                                             SetVehicleEngineOn(veh, true, true)
                                         end, coords, true)
@@ -192,52 +194,52 @@ Citizen.CreateThread(function()
                 end
 
                 for k, v in pairs(Config.Locations["armory"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 and IsArmoryWhitelist() then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 4.5) then
                         if onDuty then
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Armory")
-                                if IsControlJustReleased(0, 38) then
+                            if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Weapon safe")
+                                if IsControlJustReleased(0, Keys["E"]) then
                                     SetWeaponSeries()
                                     TriggerServerEvent("inventory:server:OpenInventory", "shop", "police", Config.Items)
                                 end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                DrawText3D(v.x, v.y, v.z, "Armory")
+                            elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2.5) then
+                                DrawText3D(v.x, v.y, v.z, "Weapon safe")
                             end  
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["stash"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 4.5) then
                         if onDuty then
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Personal stash")
-                                if IsControlJustReleased(0, 38) then
+                            if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
+                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Personal safe")
+                                if IsControlJustReleased(0, Keys["E"]) then
                                     TriggerServerEvent("inventory:server:OpenInventory", "stash", "policestash_"..QBCore.Functions.GetPlayerData().citizenid)
                                     TriggerEvent("inventory:client:SetCurrentStash", "policestash_"..QBCore.Functions.GetPlayerData().citizenid)
                                 end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                DrawText3D(v.x, v.y, v.z, "Personal stash")
+                            elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2.5) then
+                                DrawText3D(v.x, v.y, v.z, "Personal safe")
                             end  
                         end
                     end
                 end
 
                 for k, v in pairs(Config.Locations["fingerprint"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
+                    if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 4.5) then
                         if onDuty then
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                            if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
                                 DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Scan fingerprint")
-                                if IsControlJustReleased(0, 38) then
+                                if IsControlJustReleased(0, Keys["E"]) then
                                     local player, distance = GetClosestPlayer()
                                     if player ~= -1 and distance < 2.5 then
                                         local playerId = GetPlayerServerId(player)
                                         TriggerServerEvent("police:server:showFingerprint", playerId)
                                     else
-                                        QBCore.Functions.Notify("No one nearby!", "error")
+                                        QBCore.Functions.Notify("No one around!", "error")
                                     end
                                 end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                            elseif (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 2.5) then
                                 DrawText3D(v.x, v.y, v.z, "Finger scan")
                             end  
                         end
@@ -287,7 +289,7 @@ end)
 
 RegisterNetEvent('police:client:SendEmergencyMessage')
 AddEventHandler('police:client:SendEmergencyMessage', function(message)
-    local coords = GetEntityCoords(PlayerPedId())
+    local coords = GetEntityCoords(GetPlayerPed(-1))
     
     TriggerServerEvent("police:server:SendEmergencyMessage", coords, message)
     TriggerEvent("police:client:CallAnim")
@@ -321,10 +323,9 @@ RegisterNetEvent('police:client:ImpoundVehicle')
 AddEventHandler('police:client:ImpoundVehicle', function(fullImpound, price)
     local vehicle = QBCore.Functions.GetClosestVehicle()
     if vehicle ~= 0 and vehicle ~= nil then
-        local ped = PlayerPedId()
-        local pos = GetEntityCoords(ped)
+        local pos = GetEntityCoords(GetPlayerPed(-1))
         local vehpos = GetEntityCoords(vehicle)
-        if #(pos - vehpos) < 5.0 and not IsPedInAnyVehicle(ped) then
+        if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, vehpos.x, vehpos.y, vehpos.z, true) < 5.0) and not IsPedInAnyVehicle(GetPlayerPed(-1)) then
             local plate = GetVehicleNumberPlateText(vehicle)
             TriggerServerEvent("police:server:Impound", plate, fullImpound, price)
             QBCore.Functions.DeleteVehicle(vehicle)
@@ -335,7 +336,7 @@ end)
 RegisterNetEvent('police:client:CheckStatus')
 AddEventHandler('police:client:CheckStatus', function()
     QBCore.Functions.GetPlayerData(function(PlayerData)
-        if PlayerData.job.name == "police" then
+        if PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.job.name == 'police8' or PlayerData.job.name == 'police9' or PlayerData.job.name == 'police10' then
             local player, distance = GetClosestPlayer()
             if player ~= -1 and distance < 5.0 then
                 local playerId = GetPlayerServerId(player)
@@ -346,29 +347,27 @@ AddEventHandler('police:client:CheckStatus', function()
                         end
                     end
                 end, playerId)
-            else
-                QBCore.Functions.Notify("No One Nearby", "error")
             end
         end
     end)
 end)
 
 function MenuImpound()
-    ped = PlayerPedId();
-    MenuTitle = "Impounded"
+    ped = GetPlayerPed(-1);
+    MenuTitle = "Seizure"
     ClearMenu()
-    Menu.addButton("Police Impound", "ImpoundVehicleList", nil)
-    Menu.addButton("Close menu", "closeMenuFull", nil) 
+    Menu.addButton("Vehicles", "ImpoundVehicleList", nil)
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function ImpoundVehicleList()
     QBCore.Functions.TriggerCallback("police:GetImpoundedVehicles", function(result)
-        ped = PlayerPedId();
-        MenuTitle = "Impounded Vehicles:"
+        ped = GetPlayerPed(-1);
+        MenuTitle = "Vehicles:"
         ClearMenu()
 
         if result == nil then
-            QBCore.Functions.Notify("There are no impounded vehicles", "error", 5000)
+            QBCore.Functions.Notify("There are no Seized Vehicles", "error", 5000)
             closeMenuFull()
         else
             for k, v in pairs(result) do
@@ -376,7 +375,7 @@ function ImpoundVehicleList()
                 bodyPercent = round(v.body / 10, 0)
                 currentFuel = v.fuel
 
-                Menu.addButton(QBCore.Shared.Vehicles[v.vehicle]["name"], "TakeOutImpound", v, "Impounded", " Engine: " .. enginePercent .. "%", " Body: " .. bodyPercent.. "%", " Fuel: "..currentFuel.. "%")
+                Menu.addButton(QBCore.Shared.Vehicles[v.vehicle]["name"], "TakeOutImpound", v, "Confiscated", " Motor: " .. enginePercent .. "%", " Body: " .. bodyPercent.. "%", " Fuel: "..currentFuel.. "%")
             end
         end
             
@@ -393,12 +392,11 @@ function TakeOutImpound(vehicle)
         QBCore.Functions.TriggerCallback('qb-garage:server:GetVehicleProperties', function(properties)
             QBCore.Functions.SetVehicleProperties(veh, properties)
             SetVehicleNumberPlateText(veh, vehicle.plate)
-            SetEntityHeading(veh, coords.w)
+            SetEntityHeading(veh, coords.h)
             exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
             doCarDamage(veh, vehicle)
-            TriggerServerEvent('police:server:TakeOutImpound',vehicle.plate)
             closeMenuFull()
-            TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+            TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
             TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
             SetVehicleEngineOn(veh, true, true)
         end, vehicle.plate)
@@ -406,24 +404,24 @@ function TakeOutImpound(vehicle)
 end
 
 function MenuOutfits()
-    ped = PlayerPedId();
+    ped = GetPlayerPed(-1);
     MenuTitle = "Outfits"
     ClearMenu()
     Menu.addButton("My Outfits", "OutfitsLijst", nil)
-    Menu.addButton("Close menu", "closeMenuFull", nil) 
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function changeOutfit()
 	Wait(200)
     loadAnimDict("clothingshirt")    	
-	TaskPlayAnim(PlayerPedId(), "clothingshirt", "try_shirt_positive_d", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+	TaskPlayAnim(GetPlayerPed(-1), "clothingshirt", "try_shirt_positive_d", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
 	Wait(3100)
-	TaskPlayAnim(PlayerPedId(), "clothingshirt", "exit", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+	TaskPlayAnim(GetPlayerPed(-1), "clothingshirt", "exit", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
 end
 
 function OutfitsLijst()
     QBCore.Functions.TriggerCallback('apartments:GetOutfits', function(outfits)
-        ped = PlayerPedId();
+        ped = GetPlayerPed(-1);
         MenuTitle = "My Outfits :"
         ClearMenu()
 
@@ -440,7 +438,7 @@ function OutfitsLijst()
 end
 
 function optionMenu(outfitData)
-    ped = PlayerPedId();
+    ped = GetPlayerPed(-1);
     MenuTitle = "What now?"
     ClearMenu()
 
@@ -463,23 +461,23 @@ function removeOutfit(oData)
 end
 
 function MenuGarage()
-    ped = PlayerPedId();
+    ped = GetPlayerPed(-1);
     MenuTitle = "Garage"
     ClearMenu()
     Menu.addButton("Vehicles", "VehicleList", nil)
-    Menu.addButton("Close menu", "closeMenuFull", nil) 
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function VehicleList(isDown)
-    ped = PlayerPedId();
+    ped = GetPlayerPed(-1);
     MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
-        Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", k, "Garage", " Engine: 100%", " Body: 100%", " Fuel: 100%")
+        Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
     if IsArmoryWhitelist() then
         for veh, label in pairs(Config.WhitelistedVehicles) do
-            Menu.addButton(label, "TakeOutVehicle", veh, "Garage", " Engine: 100%", " Body: 100%", " Fuel: 100%")
+            Menu.addButton(label, "TakeOutVehicle", veh, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
         end
     end
         
@@ -490,11 +488,11 @@ function TakeOutVehicle(vehicleInfo)
     local coords = Config.Locations["vehicle"][currentGarage]
 
     QBCore.Functions.SpawnVehicle(vehicleInfo, function(veh)
-        SetVehicleNumberPlateText(veh, "PLZI"..tostring(math.random(1000, 9999)))
-        SetEntityHeading(veh, coords.w)
+        SetVehicleNumberPlateText(veh, "qb"..tostring(math.random(1000, 9999)))
+        SetEntityHeading(veh, coords.h)
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
-        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         TriggerServerEvent("inventory:server:addTrunkItems", GetVehicleNumberPlateText(veh), Config.CarItems)
         SetVehicleEngineOn(veh, true, true)
@@ -584,19 +582,13 @@ end
 
 function IsArmoryWhitelist()
     local retval = false
-
-    if QBCore.Functions.GetPlayerData().job.name == 'police' then
-        retval = true
-    end
-
---[[     local citizenid = QBCore.Functions.GetPlayerData().citizenid
+    local citizenid = QBCore.Functions.GetPlayerData().citizenid
     for k, v in pairs(Config.ArmoryWhitelist) do
         if v == citizenid then
             retval = true
             break
         end
-    end ]]
-
+    end
     return retval
 end
 

@@ -1,15 +1,3 @@
-Keys = {
-	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
-	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
-	["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-	["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-	["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-	["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70, 
-	["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
-
 isLoggedIn = true
 
 isHandcuffed = false
@@ -47,14 +35,14 @@ RegisterNetEvent('QBCore:Client:OnJobUpdate')
 AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerJob = JobInfo
     TriggerServerEvent("police:server:UpdateBlips")
-        if JobInfo.name == "police" or JobInfo.name == "police1" or JobInfo.name == "police2" or JobInfo.name == "police3" or JobInfo.name == "police4" or JobInfo.name == "police5" or JobInfo.name == "police6" or JobInfo.name == "police7" or JobInfo.name == "police8" then
+    if JobInfo.name == "police" then
         if PlayerJob.onduty then
             TriggerServerEvent("QBCore:ToggleDuty")
             onDuty = false
         end
     end
 
-    if (PlayerJob ~= nil) and PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' then
+    if (PlayerJob ~= nil) and PlayerJob.name ~= "police" then
         if DutyBlips ~= nil then 
             for k, v in pairs(DutyBlips) do
                 RemoveBlip(v)
@@ -84,7 +72,7 @@ AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
         TriggerEvent('qb-clothing:client:loadOutfit', trackerClothingData)
     end
 
-    if (PlayerJob ~= nil) and PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' then
+    if (PlayerJob ~= nil) and PlayerJob.name ~= "police" then
         if DutyBlips ~= nil then 
             for k, v in pairs(DutyBlips) do
                 RemoveBlip(v)
@@ -97,15 +85,15 @@ end)
 RegisterNetEvent('police:client:sendBillingMail')
 AddEventHandler('police:client:sendBillingMail', function(amount)
     SetTimeout(math.random(2500, 4000), function()
-        local gender = "sir"
+        local gender = "Mr."
         if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then
             gender = "Mrs."
         end
         local charinfo = QBCore.Functions.GetPlayerData().charinfo
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = "Central Judicial Collection Agency",
-            subject = "Direct Debit",
-            message = "Best " .. gender .. " " .. charinfo.lastname .. ",<br /><br />It Central Judicial Collection Agency (CJIB) charged the fines you received from the police. <br /> <strong> $ ".. amount .." </strong> has been deducted from your account. <br /> <br /> With kind regards, <br /> Mr. I. qb",
+            subject = "Debt collection",
+            message = "Dear " .. gender .. " " .. charinfo.lastname .. ",<br /><br />The Central Judicial Collection Agency (CJCA) charged the fines you received from the police.<br />There is <strong>$"..amount.."</strong> withdrawn from your account.<br /><br />Kind regards,<br />Mr. I.K. Graai",
             button = {}
         })
     end)
@@ -121,14 +109,14 @@ AddEventHandler('police:client:toggleDatabank', function()
             Citizen.Wait(0)
         end
         local tabletModel = GetHashKey("prop_cs_tablet")
-        local bone = GetPedBoneIndex(GetPlayerPed(-1), 60309)
+        local bone = GetPedBoneIndex(PlayerPedId(), 60309)
         RequestModel(tabletModel)
         while not HasModelLoaded(tabletModel) do
             Citizen.Wait(100)
         end
         tabletProp = CreateObject(tabletModel, 1.0, 1.0, 1.0, 1, 1, 0)
-        AttachEntityToEntity(tabletProp, GetPlayerPed(-1), bone, 0.03, 0.002, -0.0, 10.0, 160.0, 0.0, 1, 0, 0, 0, 2, 1)
-        TaskPlayAnim(GetPlayerPed(-1), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "base", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
+        AttachEntityToEntity(tabletProp, PlayerPedId(), bone, 0.03, 0.002, -0.0, 10.0, 160.0, 0.0, 1, 0, 0, 0, 2, 1)
+        TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "base", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
         SetNuiFocus(true, true)
         SendNUIMessage({
             type = "databank",
@@ -136,7 +124,7 @@ AddEventHandler('police:client:toggleDatabank', function()
     else
         DetachEntity(tabletProp, true, true)
         DeleteObject(tabletProp)
-        TaskPlayAnim(GetPlayerPed(-1), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "exit", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
+        TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "exit", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
         SetNuiFocus(false, false)
         SendNUIMessage({
             type = "closedatabank",
@@ -150,7 +138,7 @@ RegisterNUICallback("closeDatabank", function(data, cb)
     DetachEntity(tabletProp, true, true)
     DeleteObject(tabletProp)
     SetNuiFocus(false, false)
-    TaskPlayAnim(GetPlayerPed(-1), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "exit", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
+    TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@base", "exit", 3.0, 3.0, -1, 49, 0, 0, 0, 0)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload')
@@ -162,8 +150,8 @@ AddEventHandler('QBCore:Client:OnPlayerUnload', function()
     isHandcuffed = false
     isEscorted = false
     onDuty = false
-    ClearPedTasks(GetPlayerPed(-1))
-    DetachEntity(GetPlayerPed(-1), true, false)
+    ClearPedTasks(PlayerPedId())
+    DetachEntity(PlayerPedId(), true, false)
     if DutyBlips ~= nil then 
         for k, v in pairs(DutyBlips) do
             RemoveBlip(v)
@@ -175,7 +163,7 @@ end)
 local DutyBlips = {}
 RegisterNetEvent('police:client:UpdateBlips')
 AddEventHandler('police:client:UpdateBlips', function(players)
-    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'ems' or PlayerJob.name == 'ems1'or PlayerJob.name == 'ems2' or PlayerJob.name == 'ems3' or PlayerJob.name == 'ems4' or PlayerJob.name == 'ems5' or PlayerJob.name == 'ems6' or PlayerJob.name == 'ems7' or PlayerJob.name == 'ems8') and onDuty then
+    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'ambulance' or PlayerJob.name == 'doctor') and onDuty then
         if DutyBlips ~= nil then 
             for k, v in pairs(DutyBlips) do
                 RemoveBlip(v)
@@ -202,7 +190,7 @@ function CreateDutyBlips(playerId, playerLabel, playerJob)
 		ShowHeadingIndicatorOnBlip(blip, true)
 		SetBlipRotation(blip, math.ceil(GetEntityHeading(ped)))
         SetBlipScale(blip, 1.0)
-        if playerJob == "police" or playerJob == "police2" or playerJob == "police3" or playerJob == "police4" or playerJob == "police5" or playerJob == "police6" or playerJob == "police7" or playerJob == "police8" then
+        if playerJob == "police" then
             SetBlipColour(blip, 38)
         else
             SetBlipColour(blip, 5)
@@ -218,7 +206,7 @@ end
 
 RegisterNetEvent('police:client:SendPoliceEmergencyAlert')
 AddEventHandler('police:client:SendPoliceEmergencyAlert', function()
-    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local pos = GetEntityCoords(PlayerPedId())
     local s1, s2 = Citizen.InvokeNative(0x2EB41072B4C1E4C0, pos.x, pos.y, pos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt())
     local street1 = GetStreetNameFromHashKey(s1)
     local street2 = GetStreetNameFromHashKey(s2)
@@ -227,7 +215,7 @@ AddEventHandler('police:client:SendPoliceEmergencyAlert', function()
         streetLabel = streetLabel .. " " .. street2
     end
     local alertTitle = "Assistance colleague"
-    if PlayerJob.name == "ems" or PlayerJob.name == "ems1" or PlayerJob.name == "ems2" or PlayerJob.name == "ems3" or PlayerJob.name == "ems4"  or PlayerJob.name == "ems5"  or PlayerJob.name == "ems6" or PlayerJob.name == "ems7"  or PlayerJob.name == "ems8" then
+    if PlayerJob.name == "ambulance" or PlayerJob.name == "doctor" then
         alertTitle = "Assistance " .. PlayerJob.label
     end
 
@@ -263,7 +251,7 @@ end)
 
 RegisterNetEvent('police:client:PoliceEmergencyAlert')
 AddEventHandler('police:client:PoliceEmergencyAlert', function(callsign, streetLabel, coords)
-    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'ems' or PlayerJob.name == 'ems1'or PlayerJob.name == 'ems2' or PlayerJob.name == 'ems3'or PlayerJob.name == 'ems4' or PlayerJob.name == 'ems5'or PlayerJob.name == 'ems6' or PlayerJob.name == 'ems7'or PlayerJob.name == 'ems8') and onDuty then
+    if (PlayerJob.name == 'police' or PlayerJob.name == 'ambulance' or PlayerJob.name == 'doctor') and onDuty then
         local transG = 250
         local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
         SetBlipSprite(blip, 487)
@@ -273,7 +261,7 @@ AddEventHandler('police:client:PoliceEmergencyAlert', function(callsign, streetL
         SetBlipScale(blip, 1.2)
         SetBlipFlashes(blip, true)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("Assistance colleague")
+        AddTextComponentString("Assistance Colleague")
         EndTextCommandSetBlipName(blip)
         while transG ~= 0 do
             Wait(180 * 4)
@@ -290,13 +278,13 @@ end)
 
 RegisterNetEvent('police:client:GunShotAlert')
 AddEventHandler('police:client:GunShotAlert', function(streetLabel, isAutomatic, fromVehicle, coords, vehicleInfo)
-    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8') and onDuty then        
+    if PlayerJob.name == 'police' and onDuty then        
         local msg = ""
         local blipSprite = 313
         local blipText = "Shots fired"
         local MessageDetails = {}
         if fromVehicle then
-            blipText = "Shots fired from vehicle"
+            blipText = "Shots fired from a vehicle"
             MessageDetails = {
                 [1] = {
                     icon = '<i class="fas fa-car"></i>',
@@ -360,7 +348,7 @@ end)
 
 RegisterNetEvent('police:client:VehicleCall')
 AddEventHandler('police:client:VehicleCall', function(pos, alertTitle, streetLabel, modelPlate, modelName)
-    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8') and onDuty then
+    if PlayerJob.name == 'police' and onDuty then
         TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
             timeOut = 4000,
             alertTitle = alertTitle,
@@ -395,7 +383,7 @@ AddEventHandler('police:client:VehicleCall', function(pos, alertTitle, streetLab
         SetBlipScale(blip, 1.0)
         SetBlipAsShortRange(blip, false)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("Notification: Vehicle break-in")
+        AddTextComponentString("Alert: Vehicle burglary")
         EndTextCommandSetBlipName(blip)
         while transG ~= 0 do
             Wait(180 * 4)
@@ -412,7 +400,7 @@ end)
 
 RegisterNetEvent('police:client:HouseRobberyCall')
 AddEventHandler('police:client:HouseRobberyCall', function(coords, msg, gender, streetLabel)
-    if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8') and onDuty then
+    if PlayerJob.name == 'police' and onDuty then
         TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
             timeOut = 5000,
             alertTitle = "Burglary attempt",
@@ -444,7 +432,7 @@ AddEventHandler('police:client:HouseRobberyCall', function(coords, msg, gender, 
         SetBlipScale(blip, 0.7)
         SetBlipAsShortRange(blip, false)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("Notification: Burglary house")
+        AddTextComponentString("Alert: Burglary house")
         EndTextCommandSetBlipName(blip)
         while transG ~= 0 do
             Wait(180 * 4)
@@ -459,194 +447,30 @@ AddEventHandler('police:client:HouseRobberyCall', function(coords, msg, gender, 
     end
 end)
 
-RegisterNetEvent('police:client:ParkingRobberyCall')
-AddEventHandler('police:client:ParkingRobberyCall', function(coords, msg, gender, streetLabel)
+RegisterNetEvent('112:client:SendPoliceAlert')
+AddEventHandler('112:client:SendPoliceAlert', function(notifyType, data, blipSettings)
     if PlayerJob.name == 'police' and onDuty then
-        TriggerEvent('qb-policenotifier:client:AddPoliceAlert', {
-            timeOut = 5000,
-            alertTitle = "Parking meter robbery",
-            coords = {
-                x = coords.x,
-                y = coords.y,
-                z = coords.z,
-            },
-            details = {
-                [1] = {
-                    icon = '<i class="fas fa-venus-mars"></i>',
-                    detail = gender,
-                },
-                [2] = {
-                    icon = '<i class="fas fa-globe-europe"></i>',
-                    detail = streetLabel,
-                },
-            },
-            callSign = CashoutCore.Functions.GetPlayerData().metadata["callsign"],
-        })
-
-        PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
-        local transG = 250
-        local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-        SetBlipSprite(blip, 411)
-        SetBlipColour(blip, 1)
-        SetBlipDisplay(blip, 4)
-        SetBlipAlpha(blip, transG)
-        SetBlipScale(blip, 0.7)
-        SetBlipAsShortRange(blip, false)
-        BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("Report: Parking meter")
-        EndTextCommandSetBlipName(blip)
-        while transG ~= 0 do
-            Wait(180 * 4)
-            transG = transG - 1
-            SetBlipAlpha(blip, transG)
-            if transG == 0 then
-                SetBlipSprite(blip, 2)
-                RemoveBlip(blip)
-                return
-            end
-        end
-    end
-end)
--- RegisterNetEvent('911:client:SendPoliceAlert')
--- AddEventHandler('911:client:SendPoliceAlert', function(notifyType, data, blipSettings)
-    -- if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8') and onDuty then
-        -- if notifyType == "flagged" then
-            -- TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
-                -- timeOut = 5000,
-                -- alertTitle = "Burglary attempt",
-                -- details = {
-                    -- [1] = {
-                        -- icon = '<i class="fas fa-video"></i>',
-                        -- detail = data.camId,
-                    -- },
-                    -- [2] = {
-                        -- icon = '<i class="fas fa-closed-captioning"></i>',
-                        -- detail = data.plate,
-                    -- },
-                    -- [3] = {
-                        -- icon = '<i class="fas fa-globe-europe"></i>',
-                        -- detail = data.streetLabel,
-                    -- },
-                -- },
-                -- callSign = QBCore.Functions.GetPlayerData().metadata["callsign"],
-            -- })
-            -- RadarSound()
-        -- end
-    
-        -- if blipSettings ~= nil then
-            -- local transG = 250
-            -- local blip = AddBlipForCoord(blipSettings.x, blipSettings.y, blipSettings.z)
-            -- SetBlipSprite(blip, blipSettings.sprite)
-            -- SetBlipColour(blip, blipSettings.color)
-            -- SetBlipDisplay(blip, 4)
-            -- SetBlipAlpha(blip, transG)
-            -- SetBlipScale(blip, blipSettings.scale)
-            -- SetBlipAsShortRange(blip, false)
-            -- BeginTextCommandSetBlipName('STRING')
-            -- AddTextComponentString(blipSettings.text)
-            -- EndTextCommandSetBlipName(blip)
-            -- while transG ~= 0 do
-                -- Wait(180 * 4)
-                -- transG = transG - 1
-                -- SetBlipAlpha(blip, transG)
-                -- if transG == 0 then
-                    -- SetBlipSprite(blip, 2)
-                    -- RemoveBlip(blip)
-                    -- return
-                -- end
-            -- end
-        -- end
-    -- end
--- end)
-
--- RegisterNetEvent('police:client:PoliceAlertMessage')
--- AddEventHandler('police:client:PoliceAlertMessage', function(title, streetLabel, coords)
-    -- if PlayerJob ~= nil and (PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8') and onDuty then
-        -- TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
-            -- timeOut = 5000,
-            -- alertTitle = title,
-            -- details = {
-                -- [1] = {
-                    -- icon = '<i class="fas fa-globe-europe"></i>',
-                    -- detail = streetLabel,
-                -- },
-            -- },
-            -- callSign = QBCore.Functions.GetPlayerData().metadata["callsign"],
-        -- })
-
-        -- PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
-        -- local transG = 100
-        -- local blip = AddBlipForRadius(coords.x, coords.y, coords.z, 100.0)
-        -- SetBlipSprite(blip, 9)
-        -- SetBlipColour(blip, 1)
-        -- SetBlipAlpha(blip, transG)
-        -- SetBlipAsShortRange(blip, false)
-        -- BeginTextCommandSetBlipName('STRING')
-        -- AddTextComponentString("911 - "..title)
-        -- EndTextCommandSetBlipName(blip)
-        -- while transG ~= 0 do
-            -- Wait(180 * 4)
-            -- transG = transG - 1
-            -- SetBlipAlpha(blip, transG)
-            -- if transG == 0 then
-                -- SetBlipSprite(blip, 2)
-                -- RemoveBlip(blip)
-                -- return
-            -- end
-        -- end
-    -- end
--- end)
-
--- RegisterNetEvent('police:server:SendEmergencyMessageCheck')
--- AddEventHandler('police:server:SendEmergencyMessageCheck', function(MainPlayer, message, coords)
-    -- local PlayerData = QBCore.Functions.GetPlayerData()
-    -- if ((PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' or PlayerData.Job.name == 'ems' or PlayerData.Job.name == 'ems1' or PlayerData.Job.name == 'ems2' or PlayerData.Job.name == 'ems3' or PlayerData.Job.name == 'ems4' or PlayerData.Job.name == 'ems5' or PlayerData.Job.name == 'ems6' or PlayerData.Job.name == 'ems7' or PlayerData.Job.name == 'ems8') and onDuty) then
-        -- TriggerEvent('chatMessage', "911 Notification - " .. MainPlayer.PlayerData.charinfo.firstname .. " " .. MainPlayer.PlayerData.charinfo.lastname .. " ("..MainPlayer.PlayerData.source..")", "warning", message)
-        -- TriggerEvent("police:client:EmergencySound")
-        -- local transG = 250
-        -- local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-        -- SetBlipSprite(blip, 280)
-        -- SetBlipColour(blip, 4)
-        -- SetBlipDisplay(blip, 4)
-        -- SetBlipAlpha(blip, transG)
-        -- SetBlipScale(blip, 0.9)
-        -- SetBlipAsShortRange(blip, false)
-        -- BeginTextCommandSetBlipName('STRING')
-        -- AddTextComponentString("911 Notification")
-        -- EndTextCommandSetBlipName(blip)
-        -- while transG ~= 0 do
-            -- Wait(180 * 4)
-            -- transG = transG - 1
-            -- SetBlipAlpha(blip, transG)
-            -- if transG == 0 then
-                -- SetBlipSprite(blip, 2)
-                -- RemoveBlip(blip)
-                -- return
-            -- end
-        -- end
-    -- end
--- end)
-
--- RegisterNetEvent('police:client:Send911AMessage')
--- AddEventHandler('police:client:Send911AMessage', function(message)
-    -- local PlayerData = QBCore.Functions.GetPlayerData()
-    -- if ((PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' or PlayerData.Job.name == 'ems' or PlayerData.Job.name == 'ems1' or PlayerData.Job.name == 'ems2' or PlayerData.Job.name == 'ems3' or PlayerData.Job.name == 'ems4' or PlayerData.Job.name == 'ems5' or PlayerData.Job.name == 'ems6' or PlayerData.Job.name == 'ems7' or PlayerData.Job.name == 'ems8') and onDuty) then
-        -- TriggerEvent('chatMessage', "ANONYMOUS Notification", "warning", message)
-        -- TriggerEvent("police:client:EmergencySound")
-    -- end
--- end)
-
-RegisterNetEvent('911:client:SendPoliceAlert')
-AddEventHandler('911:client:SendPoliceAlert', function(notifyType, msg, type, blipSettings)
-    if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'ems' or PlayerJob.name == 'ems1' or PlayerJob.name == 'ems2' or PlayerJob.name == 'ems3' or PlayerJob.name == 'ems4' or PlayerJob.name == 'ems5' or PlayerJob.name == 'ems6' or PlayerJob.name == 'ems7' or PlayerJob.name == 'ems8' and onDuty then
         if notifyType == "flagged" then
-            TriggerEvent("chatMessage", "MESSAGE", "error", msg)
+            TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
+                timeOut = 5000,
+                alertTitle = "Burglary attempt",
+                details = {
+                    [1] = {
+                        icon = '<i class="fas fa-video"></i>',
+                        detail = data.camId,
+                    },
+                    [2] = {
+                        icon = '<i class="fas fa-closed-captioning"></i>',
+                        detail = data.plate,
+                    },
+                    [3] = {
+                        icon = '<i class="fas fa-globe-europe"></i>',
+                        detail = data.streetLabel,
+                    },
+                },
+                callSign = QBCore.Functions.GetPlayerData().metadata["callsign"],
+            })
             RadarSound()
-        elseif notifyType == "player" then
-            PlaySound(-1, "Event_Start_Text", "GTAO_FM_Events_Soundset", 0, 0, 1)
-        else
-            PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
-            TriggerEvent("chatMessage", "911-MESSAGE", "error", msg)
         end
     
         if blipSettings ~= nil then
@@ -676,10 +500,21 @@ AddEventHandler('911:client:SendPoliceAlert', function(notifyType, msg, type, bl
 end)
 
 RegisterNetEvent('police:client:PoliceAlertMessage')
-AddEventHandler('police:client:PoliceAlertMessage', function(msg, coords)
-    if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'ems' or PlayerJob.name == 'ems1' or PlayerJob.name == 'ems2' or PlayerJob.name == 'ems3' or PlayerJob.name == 'ems4' or PlayerJob.name == 'ems5' or PlayerJob.name == 'ems6' or PlayerJob.name == 'ems7' or PlayerJob.name == 'ems8' and onDuty then
+AddEventHandler('police:client:PoliceAlertMessage', function(title, streetLabel, coords)
+    if PlayerJob.name == 'police' and onDuty then
+        TriggerEvent('qb-policealerts:client:AddPoliceAlert', {
+            timeOut = 5000,
+            alertTitle = title,
+            details = {
+                [1] = {
+                    icon = '<i class="fas fa-globe-europe"></i>',
+                    detail = streetLabel,
+                },
+            },
+            callSign = QBCore.Functions.GetPlayerData().metadata["callsign"],
+        })
+
         PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
-        TriggerEvent("chatMessage", "911-MESSAGE", "error", msg)
         local transG = 100
         local blip = AddBlipForRadius(coords.x, coords.y, coords.z, 100.0)
         SetBlipSprite(blip, 9)
@@ -687,7 +522,7 @@ AddEventHandler('police:client:PoliceAlertMessage', function(msg, coords)
         SetBlipAlpha(blip, transG)
         SetBlipAsShortRange(blip, false)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("911 - Verdachte situatie ")
+        AddTextComponentString("911 - "..title)
         EndTextCommandSetBlipName(blip)
         while transG ~= 0 do
             Wait(180 * 4)
@@ -705,9 +540,8 @@ end)
 RegisterNetEvent('police:server:SendEmergencyMessageCheck')
 AddEventHandler('police:server:SendEmergencyMessageCheck', function(MainPlayer, message, coords)
     local PlayerData = QBCore.Functions.GetPlayerData()
-
-    if ((PlayerData.job.name == "police" or PlayerData.job.name == "police1" or PlayerData.job.name == "police2" or PlayerData.job.name == "police3" or PlayerData.job.name == "police4" or PlayerData.job.name == "police5" or PlayerData.job.name == "police6" or PlayerData.job.name == "police7" or PlayerData.job.name == "police8" or PlayerData.job.name == "ems" or PlayerData.job.name == "ems1" or PlayerData.job.name == "ems2" or PlayerData.job.name == "ems4" or PlayerData.job.name == "ems3" or PlayerData.job.name == "ems7" or PlayerData.job.name == "ems4" or PlayerData.job.name == "ems5" or PlayerData.job.name == "ems6" or PlayerData.job.name == "ems7" or PlayerData.job.name == "ems8") and onDuty) then
-        TriggerEvent('chatMessage', "911 MESSAGE - " .. MainPlayer.PlayerData.charinfo.firstname .. " " .. MainPlayer.PlayerData.charinfo.lastname .. " ("..MainPlayer.PlayerData.source..")", "warning", message)
+    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ambulance" or PlayerData.job.name == "doctor") and onDuty) then
+        TriggerEvent('chatMessage', "911 ALERT - " .. MainPlayer.PlayerData.charinfo.firstname .. " " .. MainPlayer.PlayerData.charinfo.lastname .. " ("..MainPlayer.PlayerData.source..")", "warning", message)
         TriggerEvent("police:client:EmergencySound")
         local transG = 250
         local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
@@ -718,7 +552,7 @@ AddEventHandler('police:server:SendEmergencyMessageCheck', function(MainPlayer, 
         SetBlipScale(blip, 0.9)
         SetBlipAsShortRange(blip, false)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString("911 Message")
+        AddTextComponentString("911 alert")
         EndTextCommandSetBlipName(blip)
         while transG ~= 0 do
             Wait(180 * 4)
@@ -733,12 +567,11 @@ AddEventHandler('police:server:SendEmergencyMessageCheck', function(MainPlayer, 
     end
 end)
 
-RegisterNetEvent('police:client:Send911AMessage')
-AddEventHandler('police:client:Send911AMessage', function(message)
+RegisterNetEvent('police:client:Send112AMessage')
+AddEventHandler('police:client:Send112AMessage', function(message)
     local PlayerData = QBCore.Functions.GetPlayerData()
-
-    if ((PlayerData.job.name == "police" or PlayerData.job.name == "police1" or PlayerData.job.name == "police2" or PlayerData.job.name == "police3" or PlayerData.job.name == "police4" or PlayerData.job.name == "police5" or PlayerData.job.name == "police6" or PlayerData.job.name == "police7" or PlayerData.job.name == "police8" or PlayerData.job.name == "ems" or PlayerData.job.name == "ems1" or PlayerData.job.name == "ems2" or PlayerData.job.name == "ems4" or PlayerData.job.name == "ems3" or PlayerData.job.name == "ems7" or PlayerData.job.name == "ems4" or PlayerData.job.name == "ems5" or PlayerData.job.name == "ems6" or PlayerData.job.name == "ems7" or PlayerData.job.name == "ems8") and onDuty) then
-        TriggerEvent('chatMessage', "ANONIEME MESSAGE", "warning", message)
+    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ambulance") and onDuty) then
+        TriggerEvent('chatMessage', "ANONYMOUS REPORT", "warning", message)
         TriggerEvent("police:client:EmergencySound")
     end
 end)
@@ -748,8 +581,8 @@ AddEventHandler('police:client:SendToJail', function(time)
     TriggerServerEvent("police:server:SetHandcuffStatus", false)
     isHandcuffed = false
     isEscorted = false
-    ClearPedTasks(GetPlayerPed(-1))
-    DetachEntity(GetPlayerPed(-1), true, false)
+    ClearPedTasks(PlayerPedId())
+    DetachEntity(PlayerPedId(), true, false)
     TriggerEvent("prison:client:Enter", time)
 end)
 
@@ -768,12 +601,12 @@ function GetClosestPlayer()
     local closestPlayers = QBCore.Functions.GetPlayersFromCoords()
     local closestDistance = -1
     local closestPlayer = -1
-    local coords = GetEntityCoords(GetPlayerPed(-1))
+    local coords = GetEntityCoords(PlayerPedId())
 
     for i=1, #closestPlayers, 1 do
         if closestPlayers[i] ~= PlayerId() then
             local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true)
+            local distance = #(pos - coords)
 
             if closestDistance == -1 or closestDistance > distance then
                 closestPlayer = closestPlayers[i]
@@ -788,7 +621,7 @@ end
 function DrawText3D(x,y,z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     local p = GetGameplayCamCoords()
-    local distance = GetDistanceBetweenCoords(p.x, p.y, p.z, x, y, z, 1)
+    local distance = #(p - vector3(x, y, z))
     local scale = (1 / distance) * 2
     local fov = (1 / GetGameplayCamFov()) * 100
     local scale = scale * fov

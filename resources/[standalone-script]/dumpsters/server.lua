@@ -17,9 +17,9 @@ RegisterServerEvent('sbop:server:rewarditem')
 AddEventHandler('sbop:server:rewarditem', function(listKey)
     local src = source 
     local Player = QBCore.Functions.GetPlayer(src)
-        for i = 1, math.random(1, 4), 1 do
+        for i = 1, math.random(0, 1), 1 do
             local item = Config.Items[math.random(1, #Config.Items)]
-            Player.Functions.AddItem(item, math.random(1, 4))
+            Player.Functions.AddItem(item, math.random(0, 1))
             TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'add')
             Citizen.Wait(500)
         end

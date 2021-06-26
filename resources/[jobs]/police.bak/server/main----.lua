@@ -42,7 +42,7 @@ AddEventHandler('police:server:CuffPlayer', function(playerId, isSoftcuff)
     local Player = QBCore.Functions.GetPlayer(source)
     local CuffedPlayer = QBCore.Functions.GetPlayer(playerId)
     if CuffedPlayer ~= nil then
-        if Player.Functions.GetItemByName("handcuffs") ~= nil or Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+        if Player.Functions.GetItemByName("handcuffs") ~= nil or Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
             TriggerClientEvent("police:client:GetCuffed", CuffedPlayer.PlayerData.source, Player.PlayerData.source, isSoftcuff)           
         end
     end
@@ -54,7 +54,7 @@ AddEventHandler('police:server:EscortPlayer', function(playerId)
     local Player = QBCore.Functions.GetPlayer(source)
     local EscortPlayer = QBCore.Functions.GetPlayer(playerId)
     if EscortPlayer ~= nil then
-        if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") or (EscortPlayer.PlayerData.metadata["ishandcuffed"] or EscortPlayer.PlayerData.metadata["isdead"] or EscortPlayer.PlayerData.metadata["inlaststand"]) then
+        if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") or (EscortPlayer.PlayerData.metadata["ishandcuffed"] or EscortPlayer.PlayerData.metadata["isdead"] or EscortPlayer.PlayerData.metadata["inlaststand"]) then
             TriggerClientEvent("police:client:GetEscorted", EscortPlayer.PlayerData.source, Player.PlayerData.source)
         else
             TriggerClientEvent('chatMessage', src, "SYSTEM", "error", "Person is not dead or handcuffed!")
@@ -110,7 +110,7 @@ AddEventHandler('police:server:BillPlayer', function(playerId, price)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local OtherPlayer = QBCore.Functions.GetPlayer(playerId)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if OtherPlayer ~= nil then
             OtherPlayer.Functions.RemoveMoney("bank", price, "paid-bills")
             TriggerClientEvent('QBCore:Notify', OtherPlayer.PlayerData.source, "You received a fine from $"..price)
@@ -126,7 +126,7 @@ AddEventHandler('police:server:JailPlayer', function(playerId, time)
     local currentDate = os.date("*t")
     if currentDate.day == 31 then currentDate.day = 30 end
 
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if OtherPlayer ~= nil then
             OtherPlayer.Functions.SetMetaData("injail", time)
             OtherPlayer.Functions.SetMetaData("criminalrecord", {
@@ -142,7 +142,7 @@ end)
 QBCore.Commands.Add("liveryp", "Livery", {{name="livery", help="Number of the livery"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
 
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent('lscustoms:SetLivery', source, tonumber(args[1]))
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -170,7 +170,7 @@ AddEventHandler('police:server:FlaggedPlateTriggered', function(camId, plate, st
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 if street2 ~= nil then
                     TriggerClientEvent("112:client:SendPoliceAlert", v, "flagged", {
                         camId = camId,
@@ -196,7 +196,7 @@ AddEventHandler('police:server:PoliceAlertMessage', function(title, streetLabel,
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 TriggerClientEvent("police:client:PoliceAlertMessage", v, title, streetLabel, coords)
             elseif Player.Functions.GetItemByName("radioscanner") ~= nil and math.random(1, 100) <= 50 then
                 TriggerClientEvent("police:client:PoliceAlertMessage", v, title, streetLabel, coords)
@@ -212,7 +212,7 @@ AddEventHandler('police:server:GunshotAlert', function(streetLabel, isAutomatic,
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 TriggerClientEvent("police:client:GunShotAlert", Player.PlayerData.source, streetLabel, isAutomatic, fromVehicle, coords, vehicleInfo)
             elseif Player.Functions.GetItemByName("radioscanner") ~= nil and math.random(1, 100) <= 50 then
                 TriggerClientEvent("police:client:GunShotAlert", Player.PlayerData.source, streetLabel, isAutomatic, fromVehicle, coords, vehicleInfo)
@@ -326,7 +326,7 @@ AddEventHandler('police:server:UpdateBlips', function()
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") and Player.PlayerData.job.onduty) then
+            if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") and Player.PlayerData.job.onduty) then
                 table.insert(dutyPlayers, {
                     source = Player.PlayerData.source,
                     label = Player.PlayerData.metadata["callsign"],
@@ -455,7 +455,7 @@ AddEventHandler('police:server:UpdateCurrentCops', function()
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 amount = amount + 1
             end
         end
@@ -592,7 +592,7 @@ QBCore.Functions.CreateCallback('police:GetDutyPlayers', function(source, cb)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "ambulance") and Player.PlayerData.job.onduty) then
+            if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "ambulance") and Player.PlayerData.job.onduty) then
                 table.insert(dutyPlayers, {
                     source = Player.PlayerData.source,
                     label = Player.PlayerData.metadata["callsign"],
@@ -694,7 +694,7 @@ QBCore.Functions.CreateCallback('police:GetCops', function(source, cb)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 amount = amount + 1
             end
         end
@@ -782,10 +782,30 @@ QBCore.Commands.Add("setpolice8", "Give the police job to someone ", {{name="id"
     end
 end)
 
+QBCore.Commands.Add("setpolice9", "Give the police job to someone ", {{name="id", help="Player ID"}}, true, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Myself = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then 
+        if (Myself.PlayerData.job.name == "police9" and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
+            Player.Functions.SetJob("police8")
+        end
+    end
+end)
+
+QBCore.Commands.Add("setpolice10", "Give the police job to someone ", {{name="id", help="Player ID"}}, true, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Myself = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then 
+        if (Myself.PlayerData.job.name == "police10" and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
+            Player.Functions.SetJob("police8")
+        end
+    end
+end)
+
 QBCore.Commands.Add("spikes", "Give the police job to someonePut down a spike strip", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then 
-        if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+        if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
             TriggerClientEvent('police:client:SpawnSpikeStrip', source)
         end
     end
@@ -796,7 +816,7 @@ QBCore.Commands.Add("firepolice", "Fire a police officer!", {{name="id", help="P
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local Myself = QBCore.Functions.GetPlayer(source)
     if Player ~= nil then 
-        if (Myself.PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
+        if (Myself.PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' or PlayerData.Job.name == 'police9' or PlayerData.Job.name == 'police10' and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
             Player.Functions.SetJob("unemployed")
         end
     end
@@ -815,7 +835,7 @@ end
 QBCore.Commands.Add("object", "Fire a police officerPlace / Delete an object", {{name="type", help="Type object you want or 'delete' to delete"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     local type = args[1]:lower()
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if type == "pion" then
             TriggerClientEvent("police:client:spawnCone", source)
         elseif type == "barier" then
@@ -836,7 +856,7 @@ end)
 
 QBCore.Commands.Add("hc", "Cuff a player", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty then
         TriggerClientEvent("police:client:CuffPlayer", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -846,7 +866,7 @@ end)
 QBCore.Commands.Add("reportpolice", "Report the police", {{name="Message", help="It police Message"}}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     
-    if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+    if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
         if args[1] ~= nil then
             local msg = table.concat(args, " ")
             TriggerClientEvent("chatMessage", -1, "POLICE REPORT", "error", msg)
@@ -868,7 +888,7 @@ end)
 QBCore.Commands.Add("databank", "Toggle police databank", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     
-    if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+    if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
         TriggerClientEvent("police:client:toggleDatabank", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -882,7 +902,7 @@ end)
 
 QBCore.Commands.Add("clearcasings", "Take away bullets nearby (make sure you've picked up some)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("evidence:client:ClearCasingsInArea", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -891,7 +911,7 @@ end)
 
 QBCore.Commands.Add("jail", "Send a person to prison", {{name = "id", help = "Player ID"}, {name = "time", help = "Time how long to rot >:)"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         local playerId = tonumber(args[1])
         local time = tonumber(args[2])
         if time > 0 then
@@ -906,7 +926,7 @@ end)
 
 QBCore.Commands.Add("bail", "Get person out of prison.", {{name="id", help="Players ID"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         local playerId = tonumber(args[1])
         TriggerClientEvent("prison:client:UnjailPerson", playerId)
     else
@@ -916,7 +936,7 @@ end)
 
 QBCore.Commands.Add("fine", "Fine to Player", {{name = "id", help = "Player ID"}, {name = "price", help = "Fine Amount )"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         local playerId = tonumber(args[1])
         local price = tonumber(args[2])
         if price > 0 then
@@ -962,7 +982,7 @@ end, "god")
 
 QBCore.Commands.Add("clearblood", "Take away nearby blood (make sure you've picked up some)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("evidence:client:ClearBlooddropsInArea", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -971,7 +991,7 @@ end)
 
 QBCore.Commands.Add("confiscate", "Take cash from the nearest person", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty then
         TriggerClientEvent("police:client:SeizeCash", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -980,7 +1000,7 @@ end)
 
 QBCore.Commands.Add("cuff", "Handcuff someone but let him run", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("police:client:CuffPlayerSoft", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -989,7 +1009,7 @@ end)
 
 QBCore.Commands.Add("cam", "BView security camera", {{name="camid", help="Camera ID"}}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("police:client:ActiveCamera", source, tonumber(args[1]))
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -999,7 +1019,7 @@ end)
 QBCore.Commands.Add("flagplate", "Mark a vehicle", {{name="plate", help="License plate"}, {name =" reason ", help =" Reason for marking"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         local reason = {}
         for i = 2, #args, 1 do
             table.insert(reason, args[i])
@@ -1016,7 +1036,7 @@ end)
 
 QBCore.Commands.Add("unflagplate", "Put a vehicle unmarked", {{name =" plate", help ="License plate"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if Plates ~= nil and Plates[args[1]:upper()] ~= nil then
             if Plates[args[1]:upper()].isflagged then
                 Plates[args[1]:upper()].isflagged = false
@@ -1034,7 +1054,7 @@ end)
 
 QBCore.Commands.Add("plateinfo", "Highlight a Vehicle", {{name="plate", help="License Plate"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if Plates ~= nil and Plates[args[1]:upper()] ~= nil then
             if Plates[args[1]:upper()].isflagged then
                 TriggerClientEvent('chatMessage', source, "REPORTING ROOM", "normal", "Vehicle ("..args[1]:upper()..") is marked for: "..Plates[args[1]:upper()].reason)
@@ -1051,7 +1071,7 @@ end)
 
 QBCore.Commands.Add("impound", "Send a Vehicle to the impound", {{name="price", help="Price for how much the person has to pay (may be empty)"}}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "cardealer" or Player.PlayerData.job.name == "ems1" or Player.PlayerData.job.name == "ems2" or Player.PlayerData.job.name == "ems3" or Player.PlayerData.job.name == "ems4" or Player.PlayerData.job.name == "ems5" or Player.PlayerData.job.name == "ems6" or Player.PlayerData.job.name == "ems6"or Player.PlayerData.job.name == "ems7" or Player.PlayerData.job.name == "ems8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "cardealer" or Player.PlayerData.job.name == "ems1" or Player.PlayerData.job.name == "ems2" or Player.PlayerData.job.name == "ems3" or Player.PlayerData.job.name == "ems4" or Player.PlayerData.job.name == "ems5" or Player.PlayerData.job.name == "ems6" or Player.PlayerData.job.name == "ems6"or Player.PlayerData.job.name == "ems7" or Player.PlayerData.job.name == "ems8" then
         TriggerClientEvent("police:client:ImpoundVehicle", source, false, tonumber(args[1]))
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -1060,7 +1080,7 @@ end)
 
 QBCore.Commands.Add("confiscatev", "Confiscate a Vehicle", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("police:client:ImpoundVehicle", source, true)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -1069,7 +1089,7 @@ end)
 
 QBCore.Commands.Add("paytow", "Pay a mountain net employee", {{name =" id ", help ="ID of a player"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "ems1" or Player.PlayerData.job.name == "ems2" or Player.PlayerData.job.name == "ems3" or Player.PlayerData.job.name == "ems4" or Player.PlayerData.job.name == "ems5" or Player.PlayerData.job.name == "ems6" or Player.PlayerData.job.name == "ems7" or Player.PlayerData.job.name == "ems8" or  then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "ems1" or Player.PlayerData.job.name == "ems2" or Player.PlayerData.job.name == "ems3" or Player.PlayerData.job.name == "ems4" or Player.PlayerData.job.name == "ems5" or Player.PlayerData.job.name == "ems6" or Player.PlayerData.job.name == "ems7" or Player.PlayerData.job.name == "ems8" or  then
         local playerId = tonumber(args[1])
         local OtherPlayer = QBCore.Functions.GetPlayer(playerId)
         if OtherPlayer ~= nil then
@@ -1088,7 +1108,7 @@ end)
 
 QBCore.Commands.Add("paylaw", "Pay a lawyer", {{name ="id ", help=" ID of a player"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "judge" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "judge" then
         local playerId = tonumber(args[1])
         local OtherPlayer = QBCore.Functions.GetPlayer(playerId)
         if OtherPlayer ~= nil then
@@ -1107,7 +1127,7 @@ end)
 
 QBCore.Commands.Add("radar", "Toggle speed radar :)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("wk:toggleRadar", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -1164,7 +1184,7 @@ end)
 QBCore.Commands.Add("ankleband", "Put an ankle strap on the nearest person.", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
 
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         TriggerClientEvent("police:client:CheckDistance", source)
     else
         TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
@@ -1174,7 +1194,7 @@ end)
 QBCore.Commands.Add("anklestraplocation", "Get location of person with ankle strap", {{"bsn","BSN from person"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     
-    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" then
+    if Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" then
         if args[1] ~= nil then
             local citizenid = args[1]
             local Target = QBCore.Functions.GetPlayerByCitizenId(citizenid)
@@ -1194,14 +1214,14 @@ end)
 
 QBCore.Commands.Add("embutton", "Send a Message back to a report", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
-    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") and Player.PlayerData.job.onduty) then
+    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" or Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") and Player.PlayerData.job.onduty) then
         TriggerClientEvent("police:client:SendPoliceEmergencyAlert", source)
     end
 end)
 
 QBCore.Commands.Add("dl", "Take a qbver's license from someone", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
-    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8") and Player.PlayerData.job.onduty) then
+    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8") or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
         TriggerClientEvent("police:client:SeizeqbverLicense", source)
     end
 end)
@@ -1209,7 +1229,7 @@ end)
 QBCore.Commands.Add("dna", "Take a DNA copy from a person (empty evidance bag needed)", {{name="id", help="Player ID"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     local OtherPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8") and Player.PlayerData.job.onduty) and OtherPlayer ~= nil then
+    if ((Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8") or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) and OtherPlayer ~= nil then
         if Player.Functions.RemoveItem("empty_evidence_bag", 1) then
             local info = {
                 label = "DNA-Monster",
@@ -1229,7 +1249,7 @@ QBCore.Functions.CreateUseableItem("moneybag", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.GetItemBySlot(item.slot) ~= nil then
         if item.info ~= nil and item.info ~= "" then
-            if Player.PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' then
+            if Player.PlayerData.Job.name == 'police' or PlayerData.Job.name == 'police1' or PlayerData.Job.name == 'police2' or PlayerData.Job.name == 'police3' or PlayerData.Job.name == 'police4' or PlayerData.Job.name == 'police5' or PlayerData.Job.name == 'police6' or PlayerData.Job.name == 'police7' or PlayerData.Job.name == 'police8' or PlayerData.Job.name == 'police9' or PlayerData.Job.name == 'police10' then
                 if Player.Functions.RemoveItem("moneybag", 1, item.slot) then
                     Player.Functions.AddMoney("cash", tonumber(item.info.cash), "used-moneybag")
                 end
@@ -1243,7 +1263,7 @@ function GetCurrentCops()
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" and Player.PlayerData.job.onduty) then
+            if (Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "police1" or Player.PlayerData.job.name == "police2" or Player.PlayerData.job.name == "police3" or Player.PlayerData.job.name == "police4" or Player.PlayerData.job.name == "police5" or Player.PlayerData.job.name == "police6" or Player.PlayerData.job.name == "police7" or Player.PlayerData.job.name == "police8" or Player.PlayerData.job.name == "police9" or Player.PlayerData.job.name == "police10" and Player.PlayerData.job.onduty) then
                 amount = amount + 1
             end
         end

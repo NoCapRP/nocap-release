@@ -12,10 +12,10 @@ AddEventHandler('police:client:spawnCone', function()
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("police:server:spawnObject", "cone")
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Canceled..", "error")
     end)
 end)
@@ -32,10 +32,10 @@ AddEventHandler('police:client:spawnBarier', function()
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("police:server:spawnObject", "barier")
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Canceled..", "error")
     end)
 end)
@@ -52,10 +52,10 @@ AddEventHandler('police:client:spawnSchotten', function()
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("police:server:spawnObject", "schotten")
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Canceled..", "error")
     end)
 end)
@@ -72,17 +72,17 @@ AddEventHandler('police:client:spawnTent', function()
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("police:server:spawnObject", "tent")
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Canceled..", "error")
     end)
 end)
 
 RegisterNetEvent('police:client:spawnLight')
 AddEventHandler('police:client:spawnLight', function()
-    local coords = GetEntityCoords(PlayerPedId())
+    local coords = GetEntityCoords(GetPlayerPed(-1))
     QBCore.Functions.Progressbar("spawn_object", "Place object..", 2500, false, true, {
         disableMovement = true,
         disableCarMovement = true,
@@ -93,10 +93,10 @@ AddEventHandler('police:client:spawnLight', function()
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("police:server:spawnObject", "light")
     end, function() -- Cancel
-        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Canceled..", "error")
     end)
 end)
@@ -105,7 +105,7 @@ RegisterNetEvent('police:client:deleteObject')
 AddEventHandler('police:client:deleteObject', function()
     local objectId, dist = GetClosestPoliceObject()
     if dist < 5.0 then
-        QBCore.Functions.Progressbar("remove_object", "Removing object..", 2500, false, true, {
+        QBCore.Functions.Progressbar("remove_object", "Delete object..", 2500, false, true, {
             disableMovement = true,
             disableCarMovement = true,
             disableMouse = false,
@@ -115,10 +115,10 @@ AddEventHandler('police:client:deleteObject', function()
             anim = "plant_floor",
             flags = 16,
         }, {}, {}, function() -- Done
-            StopAnimTask(PlayerPedId(), "weapons@first_person@aim_rng@generic@projectile@thermal_charge@", "plant_floor", 1.0)
+            StopAnimTask(GetPlayerPed(-1), "weapons@first_person@aim_rng@generic@projectile@thermal_charge@", "plant_floor", 1.0)
             TriggerServerEvent("police:server:deleteObject", objectId)
         end, function() -- Cancel
-            StopAnimTask(PlayerPedId(), "weapons@first_person@aim_rng@generic@projectile@thermal_charge@", "plant_floor", 1.0)
+            StopAnimTask(GetPlayerPed(-1), "weapons@first_person@aim_rng@generic@projectile@thermal_charge@", "plant_floor", 1.0)
             QBCore.Functions.Notify("Canceled..", "error")
         end)
     end
@@ -135,9 +135,9 @@ RegisterNetEvent('police:client:spawnObject')
 AddEventHandler('police:client:spawnObject', function(objectId, type, player)
     local coords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(player)))
     local heading = GetEntityHeading(GetPlayerPed(GetPlayerFromServerId(player)))
-    local forward = GetEntityForwardVector(PlayerPedId())
+    local forward = GetEntityForwardVector(GetPlayerPed(-1))
     local x, y, z = table.unpack(coords + forward * 0.5)
-    local spawnedObj = CreateObject(Config.Objects[type].model, x, y, z, true, false, false)
+    local spawnedObj = CreateObject(Config.Objects[type].model, x, y, z, false, false, false)
     PlaceObjectOnGroundProperly(spawnedObj)
     SetEntityHeading(spawnedObj, heading)
     FreezeEntityPosition(spawnedObj, Config.Objects[type].freeze)
@@ -153,19 +153,18 @@ AddEventHandler('police:client:spawnObject', function(objectId, type, player)
 end)
 
 function GetClosestPoliceObject()
-    local pos = GetEntityCoords(PlayerPedId(), true)
+    local pos = GetEntityCoords(GetPlayerPed(-1), true)
     local current = nil
     local dist = nil
 
     for id, data in pairs(ObjectList) do
-        local dist2 = #(pos - vector3(ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z))
         if current ~= nil then
-            if dist2 < dist then
+            if(GetDistanceBetweenCoords(pos, ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z, true) < dist)then
                 current = id
-                dist = dist2
+                dist = GetDistanceBetweenCoords(pos, ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z, true)
             end
         else
-            dist = dist2
+            dist = GetDistanceBetweenCoords(pos, ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z, true)
             current = id
         end
     end
@@ -193,16 +192,16 @@ Citizen.CreateThread(function()
 end)
 
 function GetClosestSpike()
-    local pos = GetEntityCoords(PlayerPedId(), true)
+    local pos = GetEntityCoords(GetPlayerPed(-1), true)
     local current = nil
 
     for id, data in pairs(SpawnedSpikes) do
         if current ~= nil then
-            if #(pos - vector3(SpawnedSpikes[id].coords.x, SpawnedSpikes[id].coords.y, SpawnedSpikes[id].coords.z)) < dist then
+            if(GetDistanceBetweenCoords(pos, SpawnedSpikes[id].coords.x, SpawnedSpikes[id].coords.y, SpawnedSpikes[id].coords.z, true) < dist)then
                 current = id
             end
         else
-            dist = #(pos - vector3(SpawnedSpikes[id].coords.x, SpawnedSpikes[id].coords.y, SpawnedSpikes[id].coords.z))
+            dist = GetDistanceBetweenCoords(pos, SpawnedSpikes[id].coords.x, SpawnedSpikes[id].coords.y, SpawnedSpikes[id].coords.z, true)
             current = id
         end
     end
@@ -212,13 +211,13 @@ end
 RegisterNetEvent('police:client:SpawnSpikeStrip')
 AddEventHandler('police:client:SpawnSpikeStrip', function()
     if #SpawnedSpikes + 1 < SpikeConfig.MaxSpikes then
-        if PlayerJob.name == "police" and PlayerJob.onduty then
-            local spawnCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0)
+        if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'police9' or PlayerJob.name == 'police10' and PlayerJob.onduty then
+            local spawnCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
             local spike = CreateObject(GetHashKey(spikemodel), spawnCoords.x, spawnCoords.y, spawnCoords.z, 1, 1, 1)
             local netid = NetworkGetNetworkIdFromEntity(spike)
             SetNetworkIdExistsOnAllMachines(netid, true)
             SetNetworkIdCanMigrate(netid, false)
-            SetEntityHeading(spike, GetEntityHeading(PlayerPedId()))
+            SetEntityHeading(spike, GetEntityHeading(GetPlayerPed(-1)))
             PlaceObjectOnGroundProperly(spike)
             table.insert(SpawnedSpikes, {
                 coords = {
@@ -230,10 +229,10 @@ AddEventHandler('police:client:SpawnSpikeStrip', function()
                 object = spike,
             })
             spikesSpawned = true
-            TriggerServerEvent('police:server:SyncSpikes', SpawnedSpikes)
+            --TriggerServerEvent('police:server:SyncSpikes', SpawnedSpikes)
         end
     else
-        QBCore.Functions.Notify('There are no Spikestrips left..', 'error')
+        QBCore.Functions.Notify('There are no Spikes trips left..', 'error')
     end
 end)
 
@@ -256,7 +255,7 @@ Citizen.CreateThread(function()
                 }
 
                 for a = 1, #tires do
-                    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+                    local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
                     local tirePos = GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, tires[a].bone))
                     local spike = GetClosestObjectOfType(tirePos.x, tirePos.y, tirePos.z, 15.0, GetHashKey(spikemodel), 1, 1, 1)
                     local spikePos = GetEntityCoords(spike, false)
@@ -279,22 +278,22 @@ Citizen.CreateThread(function()
     while true do
         if isLoggedIn then
             if ClosestSpike ~= nil then
-                local ped = PlayerPedId()
+                local ped = GetPlayerPed(-1)
                 local pos = GetEntityCoords(ped)
-                local dist = #(pos - vector3(SpawnedSpikes[ClosestSpike].coords.x, SpawnedSpikes[ClosestSpike].coords.y, SpawnedSpikes[ClosestSpike].coords.z))
+                local dist = GetDistanceBetweenCoords(pos, SpawnedSpikes[ClosestSpike].coords.x, SpawnedSpikes[ClosestSpike].coords.y, SpawnedSpikes[ClosestSpike].coords.z, true)
 
                 if dist < 4 then
-                    if not IsPedInAnyVehicle(PlayerPedId()) then
-                        if PlayerJob.name == "police" and PlayerJob.onduty then
-                            DrawText3D(pos.x, pos.y, pos.z, '[E] Delete Spike')
-                            if IsControlJustPressed(0, 38) then
+                    if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+                        if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'police9' or PlayerJob.name == 'police10' and PlayerJob.onduty then
+                            DrawText3D(pos.x, pos.y, pos.z, '[E] Remove spike')
+                            if IsControlJustPressed(0, Keys["E"]) then
                                 NetworkRegisterEntityAsNetworked(SpawnedSpikes[ClosestSpike].object)
                                 NetworkRequestControlOfEntity(SpawnedSpikes[ClosestSpike].object)            
                                 SetEntityAsMissionEntity(SpawnedSpikes[ClosestSpike].object)        
                                 DeleteEntity(SpawnedSpikes[ClosestSpike].object)
                                 table.remove(SpawnedSpikes, ClosestSpike)
                                 ClosestSpike = nil
-                                TriggerServerEvent('police:server:SyncSpikes', SpawnedSpikes)
+                               -- TriggerServerEvent('police:server:SyncSpikes', SpawnedSpikes)
                             end
                         end
                     end

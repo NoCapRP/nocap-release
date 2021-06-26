@@ -1,13 +1,100 @@
+# qb-policejob
+Police Job for QB-Core Framework :police_officer:
+
+## Dependencies
+- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-bossmenu](https://github.com/qbcore-framework/qb-bossmenu) - For the boss menu
+- [qb-garages](https://github.com/qbcore-framework/qb-garages) - For the vehicle spawner
+- [qb-clothing](https://github.com/qbcore-framework/qb-clothing) - For the locker room
+- [qb-phone](https://github.com/qbcore-framework/qb-phone) - For the MEOS app and notifications etc.
+- [qb-moneysafe](https://github.com/qbcore-framework/qb-moneysafe) - For the money safe
+- [qb-log](https://github.com/qbcore-framework/qb-logs) - For logging certain events
+
+## Screenshots
+![On Duty / Off Duty](https://imgur.com/KO2ydlt.png)
+![Whitelisted Police Armory](https://imgur.com/TQVIYFb.png)
+![Whitelisted Police Stash](https://imgur.com/Hh2fbs4.png)
+![Vehicle Spawner](https://imgur.com/plgZ9oD.png)
+![Helicopter Spawner](https://imgur.com/jE2IoqK.png)
+![Fingerprint Scan](https://imgur.com/btmurxh.png)
+![Evidence Stash](https://imgur.com/KBOoUy5.png)
+![Spike Placing](https://imgur.com/mTN6c0h.png)
+![Object Placing](https://imgur.com/7Jate4f.png)
+![Police Alert](https://imgur.com/rAIiWYH.png)
+![Securty Cam](https://imgur.com/vFr8nWf.png)
+
+## Features
+- Classical requirements like on duty/off duty, clothing, vehicle, stash etc.
+- Citizen ID based armory (Whitelisted)
+- Fingerprint test
+- Evidence locker (stash)
+- Whitelisted vehicles
+- Speed radars across the map
+- Stormram
+- Impounding player vehicle (permanent / for an amount of money)
+- Integrated jail system
+- Bullet casings
+- GSR
+- Blood drop
+- Evidence bag & Money bag
+- Police radar
+- Handcuff as an item (Can used via command too. Check Commands section.)
+- Emergency services can see each other on map
+
+### Commands
+- /spikestrip - Places spike strip on ground.
+- /pobject [pion/barier/schotten/tent/light/delete] - Places or deletes an object on/from ground.
+- /cuff - Cuffs/Uncuffs nearby player
+- /palert [text] - Sends an alert.
+- /escort - Escorts nearby plyer.
+- /mdt - Opens the MDT.
+- /callsign [text] - Sets the player a callsign on database.
+- /clearcasings - Clears nearby bullet casings.
+- /jail [id] [time] - Sends a player to the jail.
+- /unjail [id] - Takes the player out of jail.
+- /clearblood - Clears nearby blood drops.
+- /seizecash - Seizes nearby player's cash. (Puts in money bag)
+- /sc - Puts soft cuff on nearby player.
+- /cam [cam] - Shows the selected security cam display.
+- /flagplate [plate] [reason] - Flags the vehicle.
+- /unflagplate [plate] - Removes the flag of a vehicle.
+- /plateinfo [plate] - Displays if a vehicle is marked or not.
+- /depot [price] - Depots nearby vehicle. Player can take it after paying the cost.
+- /impound - Impounds nearby vehicle permanently.
+- /paytow [id] - Makes payment to the tow driver.
+- /paylawyer [id] - Makes payment to the lawyer.
+- /radar - Toggles the police radar.
+- /911 [message] - Sends a report to emergency services.
+- /911r [id] - Used to respond the emergency alerts.
+- /911a [message] - Sends an anonymous report to emergency services (gives no location).
+- /anklet - Places anklet (tracking device) on nearby player.
+- /removeanklet [citizenid] - Removes the anklet from player.
+- /ebutton - Used to respond an emergency alert.
+- /takedrivinglicense - Takes the driving license from nearby player.
+- /takedna [id] - Takes a DNA sample from the player.
+
+## Installation
+### Manual
+- Download the script and put it in the `[qb]` directory.
+- Import `qb-policejob.sql` in your database
+- Add the following code to your server.cfg/resouces.cfg
+```
+ensure qb-core
+ensure qb-policejob
+```
+
+## Configuration
+```
 Config = {}
 
 local StringCharset = {}
 local NumberCharset = {}
 
-for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
-for i = 65,  90 do table.insert(StringCharset, string.char(i)) end
-for i = 97, 122 do table.insert(StringCharset, string.char(i)) end
+for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end -- Don't touch
+for i = 65,  90 do table.insert(StringCharset, string.char(i)) end -- Don't touch
+for i = 97, 122 do table.insert(StringCharset, string.char(i)) end -- Don't touch
 
-Config.RandomStr = function(length)
+Config.RandomStr = function(length) -- Don't touch
 	if length > 0 then
 		return Config.RandomStr(length-1) .. StringCharset[math.random(1, #StringCharset)]
 	else
@@ -15,7 +102,7 @@ Config.RandomStr = function(length)
 	end
 end
 
-Config.RandomInt = function(length)
+Config.RandomInt = function(length) -- Don't touch
 	if length > 0 then
 		return Config.RandomInt(length-1) .. NumberCharset[math.random(1, #NumberCharset)]
 	else
@@ -23,7 +110,7 @@ Config.RandomInt = function(length)
 	end
 end
 
-Config.Objects = {
+Config.Objects = { -- Objects to be placed with /pobject [object]
     ["cone"] = {model = `prop_roadcone02a`, freeze = false},
     ["barier"] = {model = `prop_barrier_work06a`, freeze = true},
     ["schotten"] = {model = `prop_snow_sign_road_06g`, freeze = true},
@@ -32,81 +119,65 @@ Config.Objects = {
 }
 
 Config.Locations = {
-    ["duty"] = {
-        [1] = {x = 441.11, y = -982.04, z = 30.69, h = 271.77},
-        [2] = {x = -449.811, y = 6012.909, z = 31.815, h = 90.654},
-    },    
-    ["vehicle"] = {
-        [1] = {x = 456.16, y = -1016.94, z = 28.4, h = 85.04},
-        [2] = {x = 471.13, y = -1024.05, z = 28.17, h = 274.5},
-        [3] = {x = -455.39, y = 6002.02, z = 31.34, h = 87.93},
-    },    
-    ["stash"] = {
-        [1] = {x = 482.57, y = -995.59, z = 30.69, h = 357.37},
-        [2] = {x = -434.63, y = 6001.63, z = 31.71, h = 316.5, r = 1.0},
-    },     
-    ["impound"] = {
-        [1] = {x = -1039.09, y = -855.8, z = 4.88, h = 60.93},
-        [2] = {x = -436.14, y = 5982.63, z = 31.34, h = 136.0, r = 1.0},
-    }, 
-    ["helicopter"] = {
-        [1] = {x = -1096.17, y = -832.18, z = 37.7, h = 129.2},
-        [2] = {x = -475.43, y = 5988.353, z = 31.716, h = 31.34},
-    }, 
-    ["armory"] = {
-        [1] = {x = 487.27, y = -997.03, z = 30.69, h = 269.19},
-        [2] = {x = -436.82, y = 5996.98, z = 31.716, h = 90.654},
-    },   
-    ["trash"] = {
-        [1] = {x = -1084.28, y = -808.94, z = 11.04, h = 158.7},
-    },      
-    ["fingerprint"] = {
-        [1] = {x = 487.21, y = -993.24, z = 30.69, h = 178.56},
-        [2] = {x = -442.38, y = 6011.9, z = 27.98, h = 311.5},
-    },
-    ["evidence"] = {
-        [1] = {x = 474.03, y = -997.34, z = 30.69, h = 357.61},
-        [2] = {x = -439.09, y = 6003.12, z = 31.84, h = 90.654},
-    },    
-    ["evidence2"] = {
-        [1] = {x = -1086.54, y = -822.64, z = 11.04, h = 36.01},
-        [2] = {x = -439.54, y = 6011.42, z = 27.98, h = 44.5, r = 1.0},
-    },   
-    ["evidence3"] = {
-        [1] = {x = -1093.13, y = -817.02, z = 11.04, h = 306.61},
-        [2] = {x = -439.43, y = 6009.45, z = 27.98, h = 134.5, r = 1.0},
-     },           
-   ["stations"] = {
-       [1] = {label = "Police Headquarters", coords = {x = 428.23, y = -984.28, z = 29.76, h = 3.5}},
-       [2] = {label = "Jail", coords = {x = 1845.903, y = 2585.873, z = 45.672, h = 272.249}},
+   ["duty"] = { -- On Duty/Off Duty Marker
+       [1] = {x = 440.085, y = -974.924, z = 30.689, h = 90.654},
+       [2] = {x = -449.811, y = 6012.909, z = 31.815, h = 90.654},
+   },    
+   ["vehicle"] = { -- Vehicle Spawner Marker
+       [1] = {x = 448.159, y = -1017.41, z = 28.562, h = 90.654},
+       [2] = {x = 471.13, y = -1024.05, z = 28.17, h = 274.5},
+       [3] = {x = -455.39, y = 6002.02, z = 31.34, h = 87.93},
+   },    
+   ["stash"] = { -- Stash Marker
+       [1] = {x = 453.075, y = -980.124, z = 30.889, h = 90.654},
+       [2] = {x = -434.63, y = 6001.63, z = 31.71, h = 316.5, r = 1.0},
+   },     
+   ["impound"] = { -- Impounded Vehicles Marker
+       [1] = {x = 436.68, y = -1007.42, z = 27.32, h = 180.0},
+       [2] = {x = -436.14, y = 5982.63, z = 31.34, h = 136.0, r = 1.0},
+   }, 
+   ["helicopter"] = { -- Helicopter Spawner Marker
+       [1] = {x = 449.168, y = -981.325, z = 43.691, h = 87.234},
+       [2] = {x = -475.43, y = 5988.353, z = 31.716, h = 31.34},
+   }, 
+   ["armory"] = { -- Armory Marker
+       [1] = {x = 462.23, y = -981.12, z = 30.68, h = 90.654},
+       [2] = {x = -436.82, y = 5996.98, z = 31.716, h = 90.654},
+   },   
+   ["trash"] = { -- Trash Marker
+       [1] = {x = 471.01, y = -988.05, z = 24.92, h = 299.5},
+   },      
+   ["fingerprint"] = { -- Fingerprint Scan Marker
+       [1] = {x = 479.64, y = -990.71, z = 24.26, h = 358.5},
+       [2] = {x = -442.38, y = 6011.9, z = 27.98, h = 311.5},
+   },
+   ["evidence"] = { -- Evidence Closet 1 Marker
+       [1] = {x = 467.72, y = -992.02, z = 24.92, h = 358.5},
+       [2] = {x = -439.09, y = 6003.12, z = 31.84, h = 90.654},
+   },    
+   ["evidence2"] = { -- Evidence Closet 2 Marker
+       [1] = {x = 466.42, y = -988.71, z = 24.92, h = 90.5},
+       [2] = {x = -439.54, y = 6011.42, z = 27.98, h = 44.5, r = 1.0},
+   },   
+   ["evidence3"] = { -- Evidence Closet 3 Marker
+       [1] = {x = 468.47, y = -988.78, z = 24.92, h = 272.5},
+       [2] = {x = -439.43, y = 6009.45, z = 27.98, h = 134.5, r = 1.0},
+   },        
+   ["stations"] = { -- Police Stations Blips
+       [1] = {label = "Police Station", coords = {x = 428.23, y = -984.28, z = 29.76, h = 3.5}},
+       [2] = {label = "Prison", coords = {x = 1845.903, y = 2585.873, z = 45.672, h = 272.249}},
        [3] = {label = "Police Station Paleto", coords = {x = -451.55, y = 6014.25, z = 31.716, h = 223.81}},
    },
 }
 
-Config.ArmoryWhitelist = {
-    "XYB28100",
-    "XHF72026",
-    "BCN96179",
-    "JKG43222",
-    "GTI52550",
-    "OMY54262",
-    "UXG50696",
-    "KNC29239",
-    "FMW80559",
-    "VSK70041",
-    "ZVX83932",
-	"NYM64372",
-    "JPF61390",
-	"IEQ37275",
-	"RQE24946",
-	"VNZ84061",
-	"AGK88687",
+Config.ArmoryWhitelist = { -- Citizen ID Based Armory Whitelist (With Export for Other Scripts)
+    "ICS25831",
 }
 
-Config.Helicopter = "polmav"
+Config.Helicopter = "polmav" -- Model of the Helicopter for Helicopter Spawner
 
-Config.SecurityCameras = {
-    hideradar = false,
+Config.SecurityCameras = { -- Security Cam Locations
+    hideradar = false, -- Don't change
     cameras = {
         [1] = {label = "Pacific Bank CAM#1", x = 257.45, y = 210.07, z = 109.08, r = {x = -25.0, y = 0.0, z = 28.05}, canRotate = false, isOnline = true},
         [2] = {label = "Pacific Bank CAM#2", x = 232.86, y = 221.46, z = 107.83, r = {x = -25.0, y = 0.0, z = -140.91}, canRotate = false, isOnline = true},
@@ -145,36 +216,15 @@ Config.SecurityCameras = {
     },
 }
 
-Config.Vehicles = {
-    ["code3bmw"] = "POLICE BMW",
-	["code3cap"] = "POLICE CAP",
-	["code3cvpi"] = "POLICE BIKE",
-    ["code3durango"] = "POLICE DURANGO",
-	["code3f150"] = "POLICE F150",
-	["code3f250"] = "POLICE F250",
-    ["code3fpis"] = "POLICE FPIS", 
-    ["code3gator"] = "POLICE GATOR",
-    ["code3harley"] = "POLICE HARLEY",
-	["code3mustang"] = "POLICE MUSTANG",
-    ["code3ram"] = "POLICE RAM",
-	["code3silverado"] = "POLICE SILVERADO",
-    ["code3trailer"] = "POLICE TRAILER",
-	["code310charg"] = "POLICE CHARGER",
-	["code314charg"] = "POLICE CHARGER 14",
-    ["code316fpiu"] = "POLICE FPIU", 
-    ["code318charg"] = "POLICE CHARGER 18",
-    ["code318chargk9"] = "POLICE CHARGER K9",
-    ["code318tahoe"] = "POLICE TAHOE",
-	["code318tahoek9"] = "POLICE TAHOEK9",
-	["code319silv"] = "POLICE SILV",
-    ["code320exp"] = "POLICE Explorer", 
+Config.Vehicles = { -- Vehicle Spawner Vehicles
+    ["police2"] = "Police 2",
 }
 
-Config.WhitelistedVehicles = {
-    ["pbus"] = "Prison Bus",
+Config.WhitelistedVehicles = { -- Whitelisted Police Vehicles
+    ["pcharger"] = "Dodge Charger (UC)",
 }
 
-Config.AmmoLabels = {
+Config.AmmoLabels = { -- Labels for Weapon Ammo
     ["AMMO_PISTOL"] = "9x19mm Parabellum kogel",
     ["AMMO_SMG"] = "9x19mm Parabellum kogel",
     ["AMMO_RIFLE"] = "7.62x39mm kogel",
@@ -183,7 +233,7 @@ Config.AmmoLabels = {
     ["AMMO_SNIPER"] = "Groot caliber kogel",
 }
 
-Config.Radars = {
+Config.Radars = { -- Radar Locations
 	{x = -623.44421386719, y = -823.08361816406, z = 25.25704574585, h = 145.0 },
 	{x = -652.44421386719, y = -854.08361816406, z = 24.55704574585, h = 325.0 },
 	{x = 1623.0114746094, y = 1068.9924316406, z = 80.903594970703, h = 84.0 },
@@ -197,7 +247,7 @@ Config.Radars = {
 	{x = -823.3688, y = -1146.980, z = 8.0, h = 300.0 },
 }
 
-Config.CarItems = {
+Config.CarItems = { -- Default Trunk Items for Police Vehicles
     [1] = {
         name = "heavyarmor",
         amount = 2,
@@ -221,8 +271,8 @@ Config.CarItems = {
     },
 }
 
-Config.Items = {
-    label = "Police Weapon Safe",
+Config.Items = { -- Items to be displayed on Armory
+    label = "Police Armory",
     slots = 30,
     items = {
         [1] = {
@@ -362,7 +412,7 @@ Config.Items = {
             slot = 14,
         },
         [15] = {
-            name = "radio",
+            name = "armor",
             price = 0,
             amount = 50,
             info = {},
@@ -370,13 +420,21 @@ Config.Items = {
             slot = 15,
         },
         [16] = {
-            name = "heavyarmor",
+            name = "radio",
             price = 0,
-            amount = 1,
+            amount = 50,
             info = {},
             type = "item",
             slot = 16,
         },
+        [17] = {
+            name = "heavyarmor",
+            price = 0,
+            amount = 50,
+            info = {},
+            type = "item",
+            slot = 17,
+        },
     }
 }
-
+```

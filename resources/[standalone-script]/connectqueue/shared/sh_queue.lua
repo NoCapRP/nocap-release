@@ -51,7 +51,7 @@ local os_time = os.time
 local table_insert = table.insert
 local table_remove = table.remove
 
-Queue.InitHostName = Queue.InitHostName ~= "Dynasty Roleplay" and Queue.InitHostName or false
+Queue.InitHostName = Queue.InitHostName ~= "NoCap Roleplay" and Queue.InitHostName or false
 
 for id, power in pairs(Config.Priority) do
     _Queue.Priority[string_lower(id)] = power
@@ -312,7 +312,7 @@ function Queue:AddToConnecting(ids, ignorePos, autoRemove, done)
     local function remove()
         if not autoRemove then return end
 
-        done(Config.Language.connectingerr .."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+        done(Config.Language.connectingerr .."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
         Queue:RemoveFromConnecting(ids)
         Queue:RemoveFromQueue(ids)
         Queue:DebugPrint("Player could not be added to the connecting list")
@@ -493,7 +493,7 @@ local function playerConnect(source, setKickReason, deferrals)
 
     if not ids then
         -- prevent joining
-        done(Config.Language.idrr .."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+        done(Config.Language.idrr .."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
         CancelEvent()
         if name ~= nil then
             Queue:DebugPrint("Dropped " .. name .. ", couldn't retrieve any of their id's")
@@ -503,7 +503,7 @@ local function playerConnect(source, setKickReason, deferrals)
 
     if Config.RequireSteam and not Queue:IsSteamRunning(src) then
         -- prevent joining
-        done(Config.Language.steam .."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+        done(Config.Language.steam .."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
         CancelEvent()
         return
     end
@@ -532,7 +532,7 @@ local function playerConnect(source, setKickReason, deferrals)
     if not allow then return end
 
     if Config.PriorityOnly and not Queue:IsPriority(ids) then
-        done(Config.Language.wlonly .."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy") 
+        done(Config.Language.wlonly .."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9") 
         return 
     end
 
@@ -574,7 +574,7 @@ local function playerConnect(source, setKickReason, deferrals)
     local pos, data = Queue:IsInQueue(ids, true)
     
     if not pos or not data then
-        done(Config.Language.err .. " [1]\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+        done(Config.Language.err .. " [1]\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
 
         Queue:RemoveFromQueue(ids)
         Queue:RemoveFromConnecting(ids)
@@ -596,7 +596,7 @@ local function playerConnect(source, setKickReason, deferrals)
         return
     end
     
-    update(string_format(Config.Language.pos .. ((Queue:TempSize() and Config.ShowTemp) and " (" .. Queue:TempSize() .. " temp)" or "00:00:00"), pos, Queue:GetSize(), "").."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+    update(string_format(Config.Language.pos .. ((Queue:TempSize() and Config.ShowTemp) and " (" .. Queue:TempSize() .. " temp)" or "00:00:00"), pos, Queue:GetSize(), "").."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
 
     if rejoined then return end
 
@@ -642,7 +642,7 @@ local function playerConnect(source, setKickReason, deferrals)
             Citizen.Wait(500)
 
             if not added then
-                done(Config.Language.connectingerr .."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy")
+                done(Config.Language.connectingerr .."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9")
                 CancelEvent()
                 return
             end
@@ -661,7 +661,7 @@ local function playerConnect(source, setKickReason, deferrals)
         local seconds = data.queuetime()
         local qTime = string_format("%02d", math_floor((seconds % 86400) / 3600)) .. ":" .. string_format("%02d", math_floor((seconds % 3600) / 60)) .. ":" .. string_format("%02d", math_floor(seconds % 60))
 
-        local msg = string_format(Config.Language.pos .. ((Queue:TempSize() and Config.ShowTemp) and " (" .. Queue:TempSize() .. " temp)" or ""), pos, Queue:GetSize(), qTime).."\n🔸 Check our Discord for further information: https://discord.gg/D5WW7fy"
+        local msg = string_format(Config.Language.pos .. ((Queue:TempSize() and Config.ShowTemp) and " (" .. Queue:TempSize() .. " temp)" or ""), pos, Queue:GetSize(), qTime).."\n🔸 Check our Discord for further information: https://discord.gg/d4UuATDQS9"
         update(msg, data.deferrals)
     end
 end

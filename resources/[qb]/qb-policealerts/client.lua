@@ -28,7 +28,7 @@ end)
 RegisterNetEvent('QBCore:Client:OnJobUpdate')
 AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerJob = JobInfo
-    if JobInfo.name == "police" or JobInfo.name == "police1" or JobInfo.name == "police2" or JobInfo.name == "police3" or JobInfo.name == "police4" or JobInfo.name == "police5" or JobInfo.name == "police6" or JobInfo.name == "police7" or JobInfo.name == "police8" then
+    if JobInfo.name == "police" or JobInfo.name == "police1" or JobInfo.name == "police2" or JobInfo.name == "police3" or JobInfo.name == "police4" or JobInfo.name == "police5" or JobInfo.name == "police6" or JobInfo.name == "police7" or JobInfo.name == "police8" or JobInfo.name == "police9" or JobInfo.name == "police10" then
         if PlayerJob.onduty then
             PlayerJob.onduty = false
         end
@@ -51,7 +51,7 @@ end)
 RegisterNetEvent('qb-policealerts:client:AddPoliceAlert')
 AddEventHandler('qb-policealerts:client:AddPoliceAlert', function(data, forBoth)
     if forBoth then
-        if (PlayerJob.name == "police" or PlayerJob.name == "police1" or PlayerJob.name == "police2" or PlayerJob.name == "police3" or PlayerJob.name == "police4" or PlayerJob.name == "police5" or PlayerJob.name == "police6" or PlayerJob.name == "police7" or PlayerJob.name == "police8" or PlayerJob.name == "ems" or PlayerJob.name == "ems1" or PlayerJob.name == "ems2" or PlayerJob.name == "ems3" or PlayerJob.name == "ems4" or PlayerJob.name == "ems5" or PlayerJob.name == "ems6" or PlayerJob.name == "ems7" or PlayerJob.name == "ems8") and PlayerJob.onduty then
+        if (PlayerJob.name == "police" or PlayerJob.name == "police1" or PlayerJob.name == "police2" or PlayerJob.name == "police3" or PlayerJob.name == "police4" or PlayerJob.name == "police5" or PlayerJob.name == "police6" or PlayerJob.name == "police7" or PlayerJob.name == "police8" or PlayerJob.name == "police9" or PlayerJob.name == "police10" or PlayerJob.name == "ems" or PlayerJob.name == "ems1" or PlayerJob.name == "ems2" or PlayerJob.name == "ems3" or PlayerJob.name == "ems4" or PlayerJob.name == "ems5" or PlayerJob.name == "ems6" or PlayerJob.name == "ems7" or PlayerJob.name == "ems8") and PlayerJob.onduty then
             if data.alertTitle == "Assistance collegue" or data.alertTitle == "Assistence ambulance" or data.alertTitle == "Assistence Doctor" then
                 TriggerServerEvent("InteractSound_SV:PlayOnSource", "emergency", 0.7)
             else
@@ -65,7 +65,7 @@ AddEventHandler('qb-policealerts:client:AddPoliceAlert', function(data, forBoth)
             })
         end
     else
-        if (PlayerJob.name == "police" or PlayerJob.name == "police1" or PlayerJob.name == "police2" or PlayerJob.name == "police3" or PlayerJob.name == "police4" or PlayerJob.name == "police5" or PlayerJob.name == "police6" or PlayerJob.name == "police7" or PlayerJob.name == "police8") and PlayerJob.onduty then
+        if (PlayerJob.name == "police" or PlayerJob.name == "police1" or PlayerJob.name == "police2" or PlayerJob.name == "police3" or PlayerJob.name == "police4" or PlayerJob.name == "police5" or PlayerJob.name == "police6" or PlayerJob.name == "police7" or PlayerJob.name == "police8" or PlayerJob.name == "police9" or PlayerJob.name == "police10") and PlayerJob.onduty then
             if data.alertTitle == "Assistance collegue" or data.alertTitle == "Assistence ambulance" or data.alertTitle == "Assistence Doctor" then
                 TriggerServerEvent("InteractSound_SV:PlayOnSource", "emergency", 0.7)
             else
