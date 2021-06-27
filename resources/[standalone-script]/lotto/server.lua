@@ -16,7 +16,7 @@ RegisterServerEvent('lotto:win')
 AddEventHandler('lotto:win', function()
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
-	local array = {7500, 6400, 5100, 0, 500, 3000, 6000, 10000, 200, 1000, 2500, 9000, 6000, 6500, 3000, 290, 345, 691, 810, 329, 700, 200, 400, 500, 465, 470}
-	local money = array[math.random(26)]
+	local array = {7500, 6400, 5100, 500, 3000, 6000, 10000, 2000, 1000, 2500, 9000, 6000, 6500, 3000, 2900, 3450, 6910, 8100, 3290, 7000, 1500, 4000, 5000, 4650, 4700}
+	local money = array[math.random(25)]
 	Player.Functions.AddMoney('cash',Config.Payment)
 end)
