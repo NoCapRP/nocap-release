@@ -6409,23 +6409,23 @@ QBShared.Jobs = {
             },
             ['4'] = {
                 name = "Detective",
-                payment = 180
+                payment = 160
             },
             ['5'] = {
                 name = "Sergeant",
-                payment = 200
+                payment = 180
             },
             ['6'] = {
 				name = "Lieutenant",
-                payment = 220
+                payment = 200
             },
             ['7'] = {
 				name = "Captain",
-				payment = 240
+				payment = 220
 			},
 			['8'] = {
 				name = "Major",
-				payment = 260
+				payment = 240
 			},
 			['9'] = {
 				name = "Assistant Chief of Police",
@@ -6474,7 +6474,7 @@ QBShared.Jobs = {
             ['6'] = {
                 name = "EMS Chief",
 				isboss = true,
-				payment = 100
+				payment = 240
 			},
 		},
 		['boss'] = {
