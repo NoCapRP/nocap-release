@@ -1028,7 +1028,7 @@ QBCore.Commands.Add("911r", "Send a message back to a alert", {{name="id", help=
     table.remove(args, 1)
     local message = table.concat(args, " ")
     local Prefix = "POLICE"
-    if (Player.PlayerData.job.name == "ambulance" or Player.PlayerData.job.name == "doctor") then
+    if (Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "doctor") then
         Prefix = "AMBULANCE"
     end
     if OtherPlayer ~= nil then 

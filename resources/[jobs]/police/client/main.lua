@@ -540,7 +540,7 @@ end)
 RegisterNetEvent('police:server:SendEmergencyMessageCheck')
 AddEventHandler('police:server:SendEmergencyMessageCheck', function(MainPlayer, message, coords)
     local PlayerData = QBCore.Functions.GetPlayerData()
-    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ambulance" or PlayerData.job.name == "doctor") and onDuty) then
+    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ems" or PlayerData.job.name == "doctor") and onDuty) then
         TriggerEvent('chatMessage', "911 ALERT - " .. MainPlayer.PlayerData.charinfo.firstname .. " " .. MainPlayer.PlayerData.charinfo.lastname .. " ("..MainPlayer.PlayerData.source..")", "warning", message)
         TriggerEvent("police:client:EmergencySound")
         local transG = 250
@@ -570,7 +570,7 @@ end)
 RegisterNetEvent('police:client:Send112AMessage')
 AddEventHandler('police:client:Send112AMessage', function(message)
     local PlayerData = QBCore.Functions.GetPlayerData()
-    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ambulance") and onDuty) then
+    if ((PlayerData.job.name == "police" or PlayerData.job.name == "ems") and onDuty) then
         TriggerEvent('chatMessage', "ANONYMOUS REPORT", "warning", message)
         TriggerEvent("police:client:EmergencySound")
     end

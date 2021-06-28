@@ -3012,6 +3012,18 @@ QBShared.Vehicles = {
 		["shop"] = "custom",
 	},	
 	    
+["Skyline"] = {
+["name"] = "R34 Skyline",
+["brand"] = "Nissan",
+["model"] = "Skyline",
+["price"] = 200000,
+["category"] = "coupes",
+["hash"] = GetHashKey("Skyline"),
+["image"] = "https://img.gta5-mods.com/q95/images/nissan-skyline-gt-r-bnr34-yca-y97y/0c6b6a-bnr34_5.jpg",
+["trunkspace"] = 100000,
+["trunkslots"] = 80,
+["shop"] = "custom",
+},
 ["rmodc63amg"] = {
 ["name"] = "Mercedes C63S Coupe",
 ["brand"] = "Yamaha",
