@@ -567,6 +567,9 @@ Config.ClothingRooms = {
     [25] = {requiredJob = "ems6", x = -250.5, y = 6323.98, z = 32.32, cameraLocation = {x = 301.09, y = -596.09, z = 43.28, h = 157.5}},
     [26] = {requiredJob = "ems7", x = -250.5, y = 6323.98, z = 32.32, cameraLocation = {x = 301.09, y = -596.09, z = 43.28, h = 157.5}},
     [27] = {requiredJob = "ems8", x = -250.5, y = 6323.98, z = 32.32, cameraLocation = {x = 301.09, y = -596.09, z = 43.28, h = 157.5}}, 
+    [28] = {requiredJob = "mechanic", x = 956.76, y = -966.09, z = 39.51, cameraLocation = {x = 955.21, y = -966.63, z = 39.51, h = 280.21}},
+    [29] = {requiredJob = "mechanic1", x = 956.76, y = -966.09, z = 39.51, cameraLocation = {x = 955.21, y = -966.63, z = 39.51, h = 280.21}},
+    [30] = {requiredJob = "mechanic2", x = 956.76, y = -966.09, z = 39.51, cameraLocation = {x = 955.21, y = -966.63, z = 39.51, h = 280.21}},
 }
 
 Config.Outfits = {
@@ -3890,6 +3893,15 @@ Config.Outfits = {
             },
         },
         ["female"] = {},
-     },
-
+    },    
+    ["mechanic2"] = {
+        ["male"] = {
+            [1] = {
+                outfitLabel = "Placeholder",
+                outfitData = {
+                },
+            },
+        },
+        ["female"] = {},
+    },
 }

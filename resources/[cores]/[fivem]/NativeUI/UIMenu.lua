@@ -112,7 +112,6 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName)
                     {0, 8}, -- Fly Up and Down
                     {0, 90}, -- Fly Yaw Right
                     {0, 76}, -- Vehicle Handbrake
-					{0, 14}, -- /e handsup
                 },
             },
 		}

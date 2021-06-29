@@ -195,6 +195,62 @@ Citizen.CreateThread(function()
     end
 end)
 
+function MenuOutfits()
+    ped = PlayerPedId();
+    MenuTitle = "Outfits"
+    ClearMenu()
+    Menu.addButton("My Outfits", "OutfitsLijst", nil)
+    Menu.addButton("Close menu", "closeMenuFull", nil) 
+end
+
+function changeOutfit()
+	Wait(200)
+    loadAnimDict("clothingshirt")    	
+	TaskPlayAnim(PlayerPedId(), "clothingshirt", "try_shirt_positive_d", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+	Wait(3100)
+	TaskPlayAnim(PlayerPedId(), "clothingshirt", "exit", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+end
+
+function OutfitsLijst()
+    QBCore.Functions.TriggerCallback('apartments:GetOutfits', function(outfits)
+        ped = PlayerPedId();
+        MenuTitle = "My Outfits :"
+        ClearMenu()
+
+        if outfits == nil then
+            QBCore.Functions.Notify("You have no outfits saved...", "error", 3500)
+            closeMenuFull()
+        else
+            for k, v in pairs(outfits) do
+                Menu.addButton(outfits[k].outfitname, "optionMenu", outfits[k]) 
+            end
+        end
+        Menu.addButton("Back", "MenuOutfits",nil)
+    end)
+end
+
+function optionMenu(outfitData)
+    ped = PlayerPedId();
+    MenuTitle = "What now?"
+    ClearMenu()
+
+    Menu.addButton("Choose Outfit", "selectOutfit", outfitData) 
+    Menu.addButton("Delete Outfit", "removeOutfit", outfitData) 
+    Menu.addButton("Back", "OutfitsLijst",nil)
+end
+
+function selectOutfit(oData)
+    TriggerServerEvent('clothes:selectOutfit', oData.model, oData.skin)
+    QBCore.Functions.Notify(oData.outfitname.." chosen", "success", 2500)
+    closeMenuFull()
+    changeOutfit()
+end
+
+function removeOutfit(oData)
+    TriggerServerEvent('clothes:removeOutfit', oData.outfitname)
+    QBCore.Functions.Notify(oData.outfitname.." is deleted", "success", 2500)
+    closeMenuFull()
+end
 function niks()
     print('niks')
 end
@@ -290,6 +346,63 @@ local function saveVehicle()
 end
 
 --#[Global Functions]#--
+function MenuOutfits()
+    ped = PlayerPedId();
+    MenuTitle = "Outfits"
+    ClearMenu()
+    Menu.addButton("My Outfits", "OutfitsLijst", nil)
+    Menu.addButton("Close menu", "closeMenuFull", nil) 
+end
+
+function changeOutfit()
+	Wait(200)
+    loadAnimDict("clothingshirt")    	
+	TaskPlayAnim(PlayerPedId(), "clothingshirt", "try_shirt_positive_d", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+	Wait(3100)
+	TaskPlayAnim(PlayerPedId(), "clothingshirt", "exit", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+end
+
+function OutfitsLijst()
+    QBCore.Functions.TriggerCallback('apartments:GetOutfits', function(outfits)
+        ped = PlayerPedId();
+        MenuTitle = "My Outfits :"
+        ClearMenu()
+
+        if outfits == nil then
+            QBCore.Functions.Notify("You have no outfits saved...", "error", 3500)
+            closeMenuFull()
+        else
+            for k, v in pairs(outfits) do
+                Menu.addButton(outfits[k].outfitname, "optionMenu", outfits[k]) 
+            end
+        end
+        Menu.addButton("Back", "MenuOutfits",nil)
+    end)
+end
+
+function optionMenu(outfitData)
+    ped = PlayerPedId();
+    MenuTitle = "What now?"
+    ClearMenu()
+
+    Menu.addButton("Choose Outfit", "selectOutfit", outfitData) 
+    Menu.addButton("Delete Outfit", "removeOutfit", outfitData) 
+    Menu.addButton("Back", "OutfitsLijst",nil)
+end
+
+function selectOutfit(oData)
+    TriggerServerEvent('clothes:selectOutfit', oData.model, oData.skin)
+    QBCore.Functions.Notify(oData.outfitname.." chosen", "success", 2500)
+    closeMenuFull()
+    changeOutfit()
+end
+
+function removeOutfit(oData)
+    TriggerServerEvent('clothes:removeOutfit', oData.outfitname)
+    QBCore.Functions.Notify(oData.outfitname.." is deleted", "success", 2500)
+    closeMenuFull()
+end
+
 function AttemptPurchase(type, upgradeLevel)
     if forced then
         return true
@@ -1044,6 +1157,7 @@ Citizen.CreateThread(function()
     end
 end)
 
+
 --#[Event Handlers]#--
 RegisterNetEvent("qb-mechanic:purchaseSuccessful")
 AddEventHandler("qb-mechanic:purchaseSuccessful", function()
@@ -1062,3 +1176,4 @@ AddEventHandler("qb-mechanic:forceOpen", function()
     forced = true
     enterLocation(mechanicLocation)
 end)
+
