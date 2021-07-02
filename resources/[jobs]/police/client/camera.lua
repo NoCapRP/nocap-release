@@ -5,11 +5,11 @@ local createdCamera = 0
 
 Citizen.CreateThread(function()
     while true do
-        local ped = GetPlayerPed(PlayerId())
+        local ped = PlayerPedId()
         local pedPos = GetEntityCoords(ped, false)
         local pedHead = GetEntityRotation(ped, 2)
-        if IsControlJustReleased(0, Keys["H"]) then
-            print("Rotation: " ..GetEntityRotation(GetPlayerPed(-1)))
+        if IsControlJustReleased(0, 74) then
+            -- ??
         end
         if createdCamera ~= 0 then
             local instructions = CreateInstuctionScaleform("instructional_buttons")
@@ -22,7 +22,7 @@ Citizen.CreateThread(function()
             end
 
             -- CLOSE CAMERAS
-            if IsControlJustPressed(1, Keys["BACKSPACE"]) then
+            if IsControlJustPressed(1, 177) then
                 DoScreenFadeOut(250)
                 while not IsScreenFadedOut() do
                     Citizen.Wait(0)
@@ -41,26 +41,26 @@ Citizen.CreateThread(function()
                 local getCameraRot = GetCamRot(createdCamera, 2)
 
                 -- ROTATE UP
-                if IsControlPressed(0, Keys["W"]) then
+                if IsControlPressed(0, 32) then
                     if getCameraRot.x <= 0.0 then
                         SetCamRot(createdCamera, getCameraRot.x + 0.7, 0.0, getCameraRot.z, 2)
                     end
                 end
 
                 -- ROTATE DOWN
-                if IsControlPressed(0, Keys["S"]) then
+                if IsControlPressed(0, 8) then
                     if getCameraRot.x >= -50.0 then
                         SetCamRot(createdCamera, getCameraRot.x - 0.7, 0.0, getCameraRot.z, 2)
                     end
                 end
 
                 -- ROTATE LEFT
-                if IsControlPressed(0, Keys["A"]) then
+                if IsControlPressed(0, 34) then
                     SetCamRot(createdCamera, getCameraRot.x, 0.0, getCameraRot.z + 0.7, 2)
                 end
 
                 -- ROTATE RIGHT
-                if IsControlPressed(0, Keys["D"]) then
+                if IsControlPressed(0, 9) then
                     SetCamRot(createdCamera, getCameraRot.x, 0.0, getCameraRot.z - 0.7, 2)
                 end
             end
@@ -85,9 +85,9 @@ AddEventHandler('police:client:ActiveCamera', function(cameraId)
             connected = Config.SecurityCameras.cameras[cameraId].isOnline,
             time = GetCurrentTime(),
         })
-        local firstCamx = Config.SecurityCameras.cameras[cameraId].x
-        local firstCamy = Config.SecurityCameras.cameras[cameraId].y
-        local firstCamz = Config.SecurityCameras.cameras[cameraId].z
+        local firstCamx = Config.SecurityCameras.cameras[cameraId].coords.x
+        local firstCamy = Config.SecurityCameras.cameras[cameraId].coords.y
+        local firstCamz = Config.SecurityCameras.cameras[cameraId].coords.z
         local firstCamr = Config.SecurityCameras.cameras[cameraId].r
         SetFocusArea(firstCamx, firstCamy, firstCamz, firstCamx, firstCamy, firstCamz)
         ChangeSecurityCamera(firstCamx, firstCamy, firstCamz, firstCamr)
@@ -105,7 +105,7 @@ AddEventHandler('police:client:ActiveCamera', function(cameraId)
         })
         DoScreenFadeIn(250)
     else
-        QBCore.Functions.Notify("Camera does not exist..", "error")
+        QBCore.Functions.Notify("Camera doesn\'t exist..", "error")
     end
 end)
 
@@ -172,7 +172,7 @@ end
 function Draw3DText(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     local p = GetGameplayCamCoords()
-    local distance = GetDistanceBetweenCoords(p.x, p.y, p.z, x, y, z, 1)
+    local distance = #(p - vector3(x, y, z))
     local scale = (1 / distance) * 2
     local fov = (1 / GetGameplayCamFov()) * 100
     local scale = scale * fov

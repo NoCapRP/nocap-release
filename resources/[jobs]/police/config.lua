@@ -199,20 +199,13 @@ Config.Radars = {
 
 Config.CarItems = {
     [1] = {
-        name = "heavyarmor",
-        amount = 2,
-        info = {},
-        type = "item",
-        slot = 1,
-    },
-    [2] = {
         name = "empty_evidence_bag",
         amount = 10,
         info = {},
         type = "item",
         slot = 2,
     },
-    [3] = {
+    [2] = {
         name = "police_stormram",
         amount = 1,
         info = {},
@@ -368,14 +361,6 @@ Config.Items = {
             info = {},
             type = "item",
             slot = 15,
-        },
-        [16] = {
-            name = "heavyarmor",
-            price = 0,
-            amount = 1,
-            info = {},
-            type = "item",
-            slot = 16,
         },
     }
 }

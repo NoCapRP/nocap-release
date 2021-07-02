@@ -232,6 +232,7 @@ qbMultiCharacters.fadeOutUp = function(element, time) {
 }
 
 qbMultiCharacters.fadeOutDown = function(element, percent, time) {
+    console.log(percent)
     if (percent !== undefined) {
         $(element).css({ "display": "block" }).animate({ top: percent, }, time, function() {
             $(element).css({ "display": "none" });

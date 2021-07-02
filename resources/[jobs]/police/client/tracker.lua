@@ -5,7 +5,7 @@ AddEventHandler('police:client:CheckDistance', function()
         local playerId = GetPlayerServerId(player)
         TriggerServerEvent("police:server:SetTracker", playerId)
     else
-        QBCore.Functions.Notify("No one around!", "error")
+        QBCore.Functions.Notify("No one nearby!", "error")
     end
 end)
 
@@ -30,7 +30,7 @@ end)
 
 RegisterNetEvent('police:client:SendTrackerLocation')
 AddEventHandler('police:client:SendTrackerLocation', function(requestId)
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
 
     TriggerServerEvent('police:server:SendTrackerLocation', coords, requestId)
@@ -39,7 +39,7 @@ end)
 RegisterNetEvent('police:client:TrackerMessage')
 AddEventHandler('police:client:TrackerMessage', function(msg, coords)
     PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
-    TriggerEvent("chatMessage", "911-NOTIFICATION", "error", msg)
+    TriggerEvent("chatMessage", "911-ALERT", "error", msg)
     local transG = 250
     local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
     SetBlipSprite(blip, 458)
@@ -48,7 +48,7 @@ AddEventHandler('police:client:TrackerMessage', function(msg, coords)
     SetBlipAlpha(blip, transG)
     SetBlipScale(blip, 1.0)
     BeginTextCommandSetBlipName('STRING')
-    AddTextComponentString("Anklet Location")
+    AddTextComponentString("Anklet location")
     EndTextCommandSetBlipName(blip)
     while transG ~= 0 do
         Wait(180 * 4)

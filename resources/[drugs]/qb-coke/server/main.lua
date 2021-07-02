@@ -50,7 +50,7 @@ AddEventHandler("coke:processed", function(x,y,z)
 
 		if 	TriggerClientEvent("QBCore:Notify", src, "Made a Coke Bag!!", "Success", 8000) then
 			Player.Functions.RemoveItem('coke_brick', 1) 
-			Player.Functions.AddItem('cokebaggy', 2)
+			Player.Functions.AddItem('cokebaggy', 10)
 			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke_brick'], "remove")
 			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggy'], "add")
 		end

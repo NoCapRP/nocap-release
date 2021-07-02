@@ -1,10 +1,10 @@
 local lastRadar = nil
 -- Determines if player is close enough to trigger cam
 function HandlespeedCam(speedCam, hasBeenBusted)
-	local myPed = GetPlayerPed(-1)
+	local myPed = PlayerPedId()
 	local playerPos = GetEntityCoords(myPed)
 	local isInMarker  = false
-	if GetDistanceBetweenCoords(playerPos, speedCam.x, speedCam.y, speedCam.z, true) < 20.0 then
+	if #(playerPos - vector3(speedCam.x, speedCam.y, speedCam.z)) < 20.0 then
 		isInMarker  = true
 	end
 
@@ -19,7 +19,7 @@ function HandlespeedCam(speedCam, hasBeenBusted)
                     local plate = GetVehicleNumberPlateText(vehicle)
 					QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(result)
 						if result then
-							local coords = GetEntityCoords(GetPlayerPed(-1))
+							local coords = GetEntityCoords(PlayerPedId())
 							local blipsettings = {
 								x = coords.x,
 								y = coords.y,
@@ -27,7 +27,7 @@ function HandlespeedCam(speedCam, hasBeenBusted)
 								sprite = 488,
 								color = 1,
 								scale = 0.9,
-								text = "Flash #"..hasBeenBusted.." - Marked vehicle"
+								text = "Speed camera #"..hasBeenBusted.." - Marked vehicle"
 							}
 							local s1, s2 = Citizen.InvokeNative(0x2EB41072B4C1E4C0, coords.x, coords.y, coords.z, Citizen.PointerValueInt(), Citizen.PointerValueInt())
 							local street1 = GetStreetNameFromHashKey(s1)
@@ -49,7 +49,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-		if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+		if IsPedInAnyVehicle(PlayerPedId(), false) then
 			for key, value in pairs(Config.Radars) do
 				HandlespeedCam(value, key)
 			end

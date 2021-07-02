@@ -50,22 +50,6 @@ Config.VendingItem = {
         type = "item",
         slot = 2,
     },
-    [3] = {
-        name = "twerks_candy",
-        price = 15,
-        amount = 50,
-        info = {},
-        type = "item",
-        slot = 3,
-    },
-    [4] = {
-        name = "snikkel_candy",
-        price = 20,
-        amount = 50,
-        info = {},
-        type = "item",
-        slot = 4,
-    },
 }
 
 Config.CraftingItems = {

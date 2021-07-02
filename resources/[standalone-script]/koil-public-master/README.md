@@ -1,2 +1,0 @@
-# FiveMPublic
-Public FiveM Scripts
