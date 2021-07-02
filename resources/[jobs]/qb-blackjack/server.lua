@@ -1,17 +1,3 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-
-
-RegisterServerEvent('qb-blackjack:server:HaveAllPlayersBetted')
-AddEventHandler('qb-blackjack:server:HaveAllPlayersBetted', function()
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-
-	if TriggerClientEvent("QBCore:Notify", src, "God Bless You!", "Success", 5000) then
-        Player.Functions.RemoveMoney('cash', 5000)
-    end
-end)
-
 ranks = {'02', '03', '04', '05', '06', '07', '08', '09', '10', --[['11',]] 'JACK', 'QUEEN', 'KING', 'ACE'}
 suits = {'SPD', 'HRT', 'DIA', 'CLUB'}
 
@@ -157,10 +143,8 @@ function HaveAllPlayersBetted(table)
 			return false
 		end
 	end
-	TriggerEvent("cash_bossmenu:server:addAccountMoney", "casino", 500)
 	return true
 end
-
 
 function ArePlayersStillIn(table)
 	for i,v in pairs(table) do
@@ -242,6 +226,7 @@ function StartTableThread(i)
 			if players[index] and #players[index] ~= 0 then
 				DebugPrint("WAITING FOR ALL PLAYERS AT TABLE "..index.." TO PLACE THEIR BETS.")
 				
+				-- TODO: DONT FORGET TO REMOVE THIS JESUS CHRIST
 				
 				-- local bet = 15000
 				

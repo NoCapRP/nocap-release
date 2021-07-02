@@ -1,6 +1,3 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-
 seatSideAngle = 30
 bet = 0
 hand = {}
@@ -13,8 +10,8 @@ local _lambo = nil
 canSitDownCallback = nil
 Citizen.CreateThread(function()
     while true do 
-        local playerCoords = GetEntityCoords(GetPlayerPed(-1))
-        local closestChairDist = #(vec(playerCoords.x,playerCoords.y,playerCoords.z) - vec(948.54760742188, 32.051155090332, 76.101249084473))
+        local playerCoords = GetEntityCoords(PlayerPedId())
+        local closestChairDist = #(playerCoords - vector3(948.54760742188, 32.051155090332, 76.101249084473))
         if closestChairDist < 55.0 then 
             DisableControlAction(0, 140, true)        
             DisableControlAction(0, 135, true)        
@@ -220,6 +217,7 @@ function getChips(amount)
 end
 
 function leaveBlackjack()
+	LocalPlayer.state:set("inv_busy", false, true)
 	leavingBlackjack = true
 	renderScaleform = false
 	renderTime = false
@@ -301,7 +299,7 @@ Citizen.CreateThread(function()
 					for n,m in pairs(tables) do
 						local x, y, z = GetObjectOffsetFromCoords(m.coords.x, m.coords.y, m.coords.z, m.coords.w, v)
 						
-						if GetDistanceBetweenCoords(GetGameplayCamCoord(), x, y, z, true) < 5.0 then
+						if #(GetGameplayCamCoord() - vector3(x, y, z)) < 5.0 then
 							
 							DrawMarker(28, v.x, v.y, chipHeights[1], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 150, 150, 255, 150, false, false, false, false)
 						
@@ -443,9 +441,9 @@ function CreatePeds()
 	end
 	
 	for i,v in pairs(customTables) do
-		local model = `vw_prop_casino_blckjack_01`
+		local model = `vw_prop_casino_3cardpoker_01`
 		if v.highStakes == true then
-			model = `vw_prop_casino_blckjack_01b`
+			model = `vw_prop_casino_3cardpoker_01`
 		end
 		
 		if not HasModelLoaded(model) then
@@ -488,51 +486,21 @@ function CreatePeds()
 		end
 		
 		local dealer = CreatePed(4, model, v.coords.x, v.coords.y, v.coords.z, v.coords.w, false, true)
-		-- local dealer = ClonePed(PlayerPedId(), 0.0, false, false)
 		SetEntityCanBeDamaged(dealer, false)
 		SetBlockingOfNonTemporaryEvents(dealer, true)
 		SetPedCanRagdollFromPlayerImpact(dealer, false)
-		
-		-- SetPedVoiceGroup(dealer, `S_F_Y_Casino_01_ASIAN_02`)
-		
-		-- SetPedDefaultComponentVariation(dealer)
-		
 		SetPedResetFlag(dealer, 249, true)
 		SetPedConfigFlag(dealer, 185, true)
 		SetPedConfigFlag(dealer, 108, true)
 		SetPedConfigFlag(dealer, 208, true)
-		
 		SetDealerOutfit(dealer, i+6)
-		
-		-- NetworkSetEntityInvisibleToNetwork(dealer, true)
-		
-		-- N_0x352e2b5cf420bf3b(dealer, true)
-		-- N_0x2f3c3d9f50681de4(dealer, true)
-		
-		-- SetNetworkIdCanMigrate(PedToNet(dealer), false)
-		
-		-- local scene = NetworkCreateSynchronisedScene(v.coords.x, v.coords.y, v.coords.z, vector3(0.0, 0.0, v.coords.w), 2, true, true, 1065353216, 0, 1065353216)
-		-- NetworkAddPedToSynchronisedScene(dealer, scene, "anim_casino_b@amb@casino@games@shared@dealer@", "idle", 2.0, -2.0, 13, 16, 1148846080, 0)
-		-- NetworkStartSynchronisedScene(scene)
-		
+
 		local scene = CreateSynchronizedScene(v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, v.coords.w, 2)
 		TaskSynchronizedScene(dealer, scene, "anim_casino_b@amb@casino@games@shared@dealer@", "idle", 1000.0, -8.0, 4, 1, 1148846080, 0)
-		
-		-- TaskLookAtEntity(dealer, PlayerPedId(), -1, 2048, 3)
-		
-		-- Wait(1500)
-		
-		-- TaskPlayAnim(dealer, anim, "idle", 4.0, -1.0, -1, 0, -1.0, true, true, true)
-		
+
 		spawnedPeds[i] = dealer
 	end
 end
-
--- function getCardOffset(seat, cardIndex)
-	-- if seat == 1 then
-		-- if cardIndex = 
-	-- end
--- end
 
 RegisterNetEvent("BLACKJACK:SyncTimer")
 AddEventHandler("BLACKJACK:SyncTimer", function(_timeLeft)
@@ -549,21 +517,7 @@ AddEventHandler("BLACKJACK:PlayDealerAnim", function(i, animDict, anim)
 			RequestAnimDict(animDict)
 			repeat Wait(0) until HasAnimDictLoaded(animDict)
 		end
-	
-		-- if GetEntityModel(spawnedPeds[i]) == `s_f_y_casino_01` then
-			-- anim = "female_"..anim
-		-- end
-		
 		DebugPrint("PLAYING "..anim:upper().." ON DEALER "..i)
-		
-		-- if seat == 0 then
-			-- local scene = CreateSynchronizedScene(v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, v.coords.w, 2)
-			-- TaskSynchronizedScene(spawnedPeds[i], scene, "anim_casino_b@amb@casino@games@blackjack@dealer", "female_deal_card_self", 1000.0, -8.0, 4, 1, 1148846080, 0)
-		-- else
-			-- local scene = CreateSynchronizedScene(v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, v.coords.w, 2)
-			-- TaskSynchronizedScene(spawnedPeds[i], scene, "anim_casino_b@amb@casino@games@blackjack@dealer", "female_deal_card_player_0" .. 5-seat, 1000.0, -8.0, 4, 1, 1148846080, 0)
-		-- end
-		
 		local scene = CreateSynchronizedScene(v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, v.coords.w, 2)
 		TaskSynchronizedScene(spawnedPeds[i], scene, animDict, anim, 1000.0, -8.0, 4, 1, 1148846080, 0)
 	
@@ -597,57 +551,6 @@ AddEventHandler("BLACKJACK:SplitHand", function(index, seat, splitHandSize, _han
 end)
 
 selectedBet = 1
-
---[[
-	--Get chip offsets
-	Citizen.CreateThread(function()
-		local selectedOffset = { x=0.0, y=0.0, z=0.0 }
-		while true do
-			Citizen.Wait(0)
-
-			if selectedTable and selectedChip then
-				if IsControlPressed(1, 108) then -- y-selectedOffset.x, selectedOffset.y
-					selectedOffset.y = selectedOffset.y - 0.01
-				end
-
-				if IsControlPressed(1, 107) then -- y+
-					selectedOffset.y = selectedOffset.y + 0.01
-				end
-
-				if IsControlPressed(1, 111) then -- x-
-					selectedOffset.x = selectedOffset.x - 0.01
-				end
-
-				if IsControlPressed(1, 112) then -- x+
-					selectedOffset.x = selectedOffset.x + 0.01
-				end
-
-				if IsControlPressed(1, 117) then -- rotate left
-					selectedOffset.z = selectedOffset.z - 0.1
-					if selectedOffset.z < 0 then selectedOffset.z = 360.0 end
-				end
-
-				if IsControlPressed(1, 118) then -- rotate right
-					selectedOffset.z = selectedOffset.z + 0.1
-					if selectedOffset.z > 360 then selectedOffset.z = 0.0 end
-				end
-
-				SetEntityCoordsNoOffset(selectedChip, GetObjectOffsetFromCoords(tables[selectedTable].coords.x, tables[selectedTable].coords.y, tables[selectedTable].coords.z, tables[selectedTable].coords.w, selectedOffset.x, selectedOffset.y, chipHeights[1]))
-				SetEntityRotation(selectedChip, 0.0, 0.0, tables[selectedTable].coords.w + selectedOffset.z)
-
-				SetTextScale(0.5, 0.5)
-				SetTextColour(255,255,255,255)
-				SetTextDropShadow(0, 0, 0, 0,255)
-				SetTextEdge(1, 0, 0, 0, 255)
-				SetTextDropShadow()
-				SetTextOutline()
-				SetTextEntry("STRING")
-				AddTextComponentString("~b~"..selectedOffset.x..", "..selectedOffset.y..", "..selectedOffset.z)
-				DrawText(0.3,0.8)
-			end
-		end
-	end)
---]]
 
 RegisterNetEvent("BLACKJACK:PlaceBetChip")
 AddEventHandler("BLACKJACK:PlaceBetChip", function(index, seat, bet, double, split)
@@ -802,12 +705,7 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 			if IsControlJustPressed(1, 205) then -- Q / Y
 				selectedBet = tableLimit
 			elseif IsControlJustPressed(1, 202) then -- ESC / B
-				leavingBlackjack = true
-				renderScaleform = false
-				renderTime = false
-				renderBet = false
-				renderHand = false
-				selectedBet = 1
+				leaveBlackjack()
 				return
 			end
 
@@ -874,12 +772,12 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 					renderBet = false
 					if selectedBet < 27 then
 						if leavingBlackjack == true then leaveBlackjack() return end
-
+						local ped = PlayerPedId()
 						local anim = "place_bet_small"
 						
 						playerBusy = true
 						local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-						NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+						NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 						NetworkStartSynchronisedScene(scene)
 						
 						Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*500))
@@ -899,16 +797,16 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 						DebugPrint("IDLING POsh-BUSY: "..idleVar)
 						
 						local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-						NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+						NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 						NetworkStartSynchronisedScene(scene)
 					else
 						if leavingBlackjack == true then leaveBlackjack() return end
-
+						local ped = PlayerPedId()
 						local anim = "place_bet_large"
 						
 						playerBusy = true
 						local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-						NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+						NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 						NetworkStartSynchronisedScene(scene)
 						
 						Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*500))
@@ -928,7 +826,7 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 						DebugPrint("IDLING POsh-BUSY: "..idleVar)
 
 						local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-						NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+						NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 						NetworkStartSynchronisedScene(scene)
 					end
 					return
@@ -937,7 +835,6 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 				end
 			end
 		end
-		-- TriggerServerEvent("BLACKJACK:SetPlayerBet", g_seat, closestChair, bet)
 	end)
 end)
 
@@ -961,12 +858,6 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 		ScaleformMovieMethodAddParamInt(80)
 		EndScaleformMovieMethod()
 		
-		-- BeginScaleformMovieMethod(scaleform, "SET_DATA_SLOT")
-		-- ScaleformMovieMethodAddParamInt(0)
-		-- ScaleformMovieMethodAddParamPlayerNameString(GetControlInstructionalButton(1, 51, 0))
-		-- ScaleformMovieMethodAddParamPlayerNameString("Quit")
-		-- EndScaleformMovieMethod()
-
 		BeginScaleformMovieMethod(scaleform, "SET_DATA_SLOT")
 		ScaleformMovieMethodAddParamInt(1)
 		ScaleformMovieMethodAddParamPlayerNameString(GetControlInstructionalButton(1, 201, 0))
@@ -1008,10 +899,10 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				renderTime = false
 				renderHand = false
 				local anim = requestCardAnims[math.random(1,#requestCardAnims)]
-				
+				local ped = PlayerPedId()
 				playerBusy = true
 				local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-				NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+				NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 				NetworkStartSynchronisedScene(scene)
 				Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*990))
 
@@ -1024,14 +915,14 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				DebugPrint("IDLING POsh-BUSY: "..idleVar)
 
 				local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-				NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+				NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 				NetworkStartSynchronisedScene(scene)
 				
 				return
 			end
 			if IsControlJustPressed(1, 203) then
 				if leavingBlackjack == true then leaveBlackjack() return end
-
+				local ped = PlayerPedId()
 				TriggerServerEvent("BLACKJACK:ReceivedMove", "stand")
 				
 				renderScaleform = false
@@ -1041,7 +932,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				
 				playerBusy = true
 				local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-				NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+				NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 				NetworkStartSynchronisedScene(scene)
 				Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*990))
 
@@ -1054,12 +945,12 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				DebugPrint("IDLING POsh-BUSY: "..idleVar)
 
 				local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-				NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+				NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 				NetworkStartSynchronisedScene(scene)
 
 				return
 			end
-			if IsControlJustPressed(1, 192) and #hand == 2 and #splitHand == 0 then
+			if IsControlJustPressed(1, 205) and #hand == 2 and #splitHand == 0 then
 				if leavingBlackjack == true then leaveBlackjack() return end
 
 				TriggerServerEvent("BLACKJACK:CheckPlayerBet", g_seat, bet)
@@ -1077,7 +968,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				
 				if canBet then
 					if leavingBlackjack == true then leaveBlackjack() return end
-
+					local ped = PlayerPedId()
 					TriggerServerEvent("BLACKJACK:ReceivedMove", "double")
 					
 					renderScaleform = false
@@ -1087,7 +978,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 					
 					playerBusy = true
 					local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-					NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+					NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 					NetworkStartSynchronisedScene(scene)
 					Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*500))
 					
@@ -1106,7 +997,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 					DebugPrint("IDLING POsh-BUSY: "..idleVar)
 
 					local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-					NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+					NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 					NetworkStartSynchronisedScene(scene)
 
 					return
@@ -1132,7 +1023,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 				
 				if canBet then
 					if leavingBlackjack == true then leaveBlackjack() return end
-
+					local ped = PlayerPedId()
 					TriggerServerEvent("BLACKJACK:ReceivedMove", "split")
 					
 					renderScaleform = false
@@ -1146,7 +1037,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 					
 					playerBusy = true
 					local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, false, 1065353216, 0, 1065353216)
-					NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
+					NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@blackjack@player", anim, 2.0, -2.0, 13, 16, 1148846080, 0)
 					NetworkStartSynchronisedScene(scene)
 					Wait(math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@blackjack@player", anim)*500))
 					
@@ -1165,7 +1056,7 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 					DebugPrint("IDLING POsh-BUSY: "..idleVar)
 
 					local scene = NetworkCreateSynchronisedScene(g_coords, g_rot, 2, true, true, 1065353216, 0, 1065353216)
-					NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
+					NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 					NetworkStartSynchronisedScene(scene)
 
 					return
@@ -1174,13 +1065,6 @@ AddEventHandler("BLACKJACK:RequestMove", function(_timeLeft)
 					
 				end
 			end
-			
-			-- not yet
-			-- if IsControlJustPressed(1, 51) then
-				-- TriggerServerEvent("BLACKJACK:ReceivedMove", "leave")
-				-- leavingBlackjack = true
-				-- return
-			-- end
 		end
 	end)
 end)
@@ -1204,12 +1088,6 @@ AddEventHandler("BLACKJACK:GameEndReaction", function(result)
 		hand = {}
 		splitHand = {}
 		renderHand = false
-		-- handObjs = {}
-		-- handObjs[i] = {}
-		
-		-- for x=1,4 do
-			-- handObjs[i][x] = {}
-		-- end
 		if leavingBlackjack == true then leaveBlackjack() return end
 
 		local anim = "reaction_"..result.."_var_0"..math.random(1,4)
@@ -1237,15 +1115,6 @@ end)
 RegisterNetEvent("BLACKJACK:RetrieveCards")
 AddEventHandler("BLACKJACK:RetrieveCards", function(i, seat)
 	DebugPrint("TABLE "..i..": DELETE SEAT ".. seat .." CARDS")
-	-- if g_seat == i then 
-		-- for z,v in pairs(chips[i]) do
-			-- if v then
-				-- DeleteEntity(v)
-			-- end
-		-- end
-	-- end
-
-	-- DeleteEntity(chips[i][seat])
 
 	if seat == 0 then
 		for x,v in pairs(dealerHandObjs[i]) do
@@ -1306,23 +1175,15 @@ AddEventHandler("BLACKJACK:GiveCard", function(i, seat, handSize, card, flipped,
 	local card = CreateObjectNoOffset(model, tables[i].coords.x, tables[i].coords.y, tables[i].coords.z, false, false, false)
 	
 	table.insert(spawnedObjects, card)
-	
-	-- if seat == closestChair then
-		-- table.insert(handObjs, card)
-	-- end
-	
+
 	if seat > 0 then
 		table.insert(handObjs[i][seat], card)
 	end
 	
-	-- SetNetworkIdCanMigrate(ObjToNet(card), false)
-	
 	AttachEntityToEntity(card, spawnedPeds[i], GetPedBoneIndex(spawnedPeds[i], 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 1, 2, 1)
 	
 	Wait(500)
-	
-	-- AttachEntityToEntity(card, spawnedPeds[i], GetPedBoneIndex(spawnedPeds[i], 60309), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 1, 2, 1)
-	
+
 	Wait(800)
 	
 	DetachEntity(card, 0, true)
@@ -1348,7 +1209,7 @@ AddEventHandler("BLACKJACK:GiveCard", function(i, seat, handSize, card, flipped,
 		end
 	end
 
-	if seat == 0 and #dealerHand[i] == 1 then
+--[[ 	if seat == 0 and #dealerHand[i] == 1 then
 		local x, y, z, w = table.unpack(tables[i].coords)
 		textCoords = {x=x, y=y, z=z}
 		textCoords.z = textCoords.z + 1.5
@@ -1356,13 +1217,12 @@ AddEventHandler("BLACKJACK:GiveCard", function(i, seat, handSize, card, flipped,
 			local textCoordsRun = textCoords
 			while #dealerHandObjs[i] >= 1 do
 				Citizen.Wait(4)
-				if GetDistanceBetweenCoords(textCoordsRun.x, textCoordsRun.y, textCoordsRun.z, GetEntityCoords(PlayerPedId()), true) < 10.0 then
+				if #(vector3(textCoordsRun.x, textCoordsRun.y, textCoordsRun.z) - GetEntityCoords(PlayerPedId()))) < 10.0 then
 					-- DrawText3D(textCoordsRun.x, textCoordsRun.y, textCoordsRun.z, handValue(dealerHand[i]))
 				end
 			end
 		end)
-	end
-	
+	end ]]
 end)
 function DrawText3Ds(x, y, z, text)
 	SetTextScale(0.35, 0.35)
@@ -1382,12 +1242,12 @@ end
 Citizen.CreateThread(function()
 	while true do 
 		Citizen.Wait(5)
-		local ped = GetPlayerPed(-1)
+		local ped = PlayerPedId()
 		local pos = GetEntityCoords(ped)
 
 		local tploc_enter = elevator_entrance_location
 		local tploc_exit = elevator_roof_location
-		local dist = GetDistanceBetweenCoords(pos, tploc_enter.x, tploc_enter.y, tploc_enter.z, true)
+		local dist = #(pos - vector3(tploc_enter.x, tploc_enter.y, tploc_enter.z))
 		if dist < 10 then
 			DrawMarker(2, tploc_enter.x, tploc_enter.y, tploc_enter.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 255, 255, 255, 155, 0, 0, 0, 1, 0, 0, 0)
 			if dist < 1 then
@@ -1401,7 +1261,7 @@ Citizen.CreateThread(function()
 
 		local tploc_enter = elevator_roof_location
 		local tploc_exit = elevator_entrance_location
-		local dist = GetDistanceBetweenCoords(pos, tploc_enter.x, tploc_enter.y, tploc_enter.z, true)
+		local dist = #(pos - vector3(tploc_enter.x, tploc_enter.y, tploc_enter.z))
 		if dist < 10 then
 			DrawMarker(2, tploc_enter.x, tploc_enter.y, tploc_enter.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 255, 255, 255, 155, 0, 0, 0, 1, 0, 0, 0)
 			if dist < 1 then
@@ -1420,35 +1280,29 @@ function ProcessTables()
 	RequestAnimDict("anim_casino_b@amb@casino@games@shared@player@")
 	
 	while true do Wait(0)
-		local playerPed = PlayerPedId()
-
-		if not IsEntityDead(playerPed) then
+		if not IsEntityDead(PlayerPedId()) then
 			for i,v in pairs(tables) do
 				local cord = v.coords
 				local highStakes = v.highStakes
 				
-				if GetDistanceBetweenCoords(cord.x, cord.y, cord.z, GetEntityCoords(PlayerPedId()), true) < 3.0 then
-				
-					-- local pCoords = vector3(cord.x, cord.y, cord.z)
+				if #(GetEntityCoords(PlayerPedId()) - vector3(cord.x, cord.y, cord.z)) < 3.0 then
 					local pCoords = GetEntityCoords(PlayerPedId())
-					local tableObj = GetClosestObjectOfType(pCoords, 1.0, `vw_prop_casino_blckjack_01`, false, false, false)
-					-- highStakes = false
+					local tableObj = GetClosestObjectOfType(pCoords, 1.0, `vw_prop_casino_3cardpoker_01`, false, false, false)
 					
 					if GetEntityCoords(tableObj) == vector3(0.0, 0.0, 0.0) then
-						tableObj = GetClosestObjectOfType(pCoords, 1.0, `vw_prop_casino_blckjack_01b`, false, false, false)
-						-- highStakes = true
+						tableObj = GetClosestObjectOfType(pCoords, 1.0, `vw_prop_casino_3cardpoker_01`, false, false, false)
 					end
 					
 					if GetEntityCoords(tableObj) ~= vector3(0.0, 0.0, 0.0) then
 						closestChair = 1
 						local coords = GetWorldPositionOfEntityBone(tableObj, GetEntityBoneIndexByName(tableObj, "Chair_Base_0"..closestChair))
 						local rot = GetWorldRotationOfEntityBone(tableObj, GetEntityBoneIndexByName(tableObj, "Chair_Base_0"..closestChair))
-						dist = GetDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId()), true)
+						dist = #(pCoords - coords)
 						
 						for i=1,4 do
 							local coords = GetWorldPositionOfEntityBone(tableObj, GetEntityBoneIndexByName(tableObj, "Chair_Base_0"..i))
-							if GetDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId()), true) < dist then
-								dist = GetDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId()), true)
+							if #(pCoords - coords) < dist then
+								dist = dist
 								closestChair = i
 							end
 						end
@@ -1473,7 +1327,7 @@ function ProcessTables()
 							canSit = canSitDownCallback()
 						end
 
-						if GetDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId()), true) < 1.5 and not IsSeatOccupied(coords, 0.5) and canSit then
+						if #(pCoords - coords) < 1.5 and not IsSeatOccupied(coords, 0.5) and canSit then
 							if highStakes then
 								DisplayHelpText("Press ~INPUT_CONTEXT~ to play High-Limit Blackjack.")
 							else
@@ -1498,35 +1352,36 @@ function ProcessTables()
 							end
 							
 							if IsControlJustPressed(1, 51) then
+								LocalPlayer.state:set("inv_busy", true, true)
 								if satDownCallback ~= nil then
 									satDownCallback()
 								end
-
+								local ped = PlayerPedId()
 								local initPos = GetAnimInitialOffsetPosition("anim_casino_b@amb@casino@games@shared@player@", seatAnim, coords, rot, 0.01, 2)
 								local initRot = GetAnimInitialOffsetRotation("anim_casino_b@amb@casino@games@shared@player@", seatAnim, coords, rot, 0.01, 2)
 								
-								TaskGoStraightToCoord(PlayerPedId(), initPos, 1.0, 5000, initRot.z, 0.01)
-								repeat Wait(0) until GetScriptTaskStatus(PlayerPedId(), 2106541073) == 7
+								TaskGoStraightToCoord(ped, initPos, 1.0, 5000, initRot.z, 0.01)
+								repeat Wait(0) until GetScriptTaskStatus(ped, 2106541073) == 7
 								Wait(50)
 								
-								SetPedCurrentWeaponVisible(PlayerPedId(), 0, true, 0, 0)
+								SetPedCurrentWeaponVisible(ped, 0, true, 0, 0)
 								
 								local scene = NetworkCreateSynchronisedScene(coords, rot, 2, true, true, 1065353216, 0, 1065353216)
-								NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", seatAnim, 2.0, -2.0, 13, 16, 1148846080, 0)
+								NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", seatAnim, 2.0, -2.0, 13, 16, 1148846080, 0)
 								NetworkStartSynchronisedScene(scene)
 
 								local scene = NetworkConvertSynchronisedSceneToSynchronizedScene(scene)
-								repeat Wait(0) until GetSynchronizedScenePhase(scene) >= 0.99 or HasAnimEventFired(PlayerPedId(), 2038294702) or HasAnimEventFired(PlayerPedId(), -1424880317)
+								repeat Wait(0) until GetSynchronizedScenePhase(scene) >= 0.99 or HasAnimEventFired(ped, 2038294702) or HasAnimEventFired(ped, -1424880317)
 
 								Wait(1000)
 
 								idleVar = "idle_cardgames"
 
 								scene = NetworkCreateSynchronisedScene(coords, rot, 2, true, true, 1065353216, 0, 1065353216)
-								NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 2.0, -2.0, 13, 16, 1148846080, 0)
+								NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 2.0, -2.0, 13, 16, 1148846080, 0)
 								NetworkStartSynchronisedScene(scene)
 
-								repeat Wait(0) until IsEntityPlayingAnim(PlayerPedId(), "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 3) == 1
+								repeat Wait(0) until IsEntityPlayingAnim(ped, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 3) == 1
 
 								g_seat = i
 		
@@ -1551,7 +1406,7 @@ function ProcessTables()
 											count = count + 1
 										end
 
-										if count > 3000 then -- Make it so it enables 3 seconds after hitting the leave button so the pause menu doesn't show up when trying to leave
+										if count > 100 then -- Make it so it enables 3 seconds after hitting the leave button so the pause menu doesn't show up when trying to leave
 											break
 										end
 									end
@@ -1589,12 +1444,9 @@ function ProcessTables()
 											NetworkAddPedToSynchronisedScene(PlayerPedId(), scene, "anim_casino_b@amb@casino@games@shared@player@", idleVar, 2.0, -2.0, 13, 16, 1148846080, 0)
 											NetworkStartSynchronisedScene(scene)
 											endTime = GetGameTimer() + math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@shared@player@", idleVar)*990)
-											-- DebugPrint("idling again")
 										end
 									end
-									
-									-- DisplayHelpText("Press ~INPUT_CONTEXT~ to leave Blackjack.")
-									-- if IsControlJustPressed(1, 51) then
+
 									if leavingBlackjack == true then
 										if standUpCallback ~= nil then
 											standUpCallback()
@@ -1630,8 +1482,6 @@ function ProcessTables()
 											end
 										end
 									end
-
-									-- if IsEntityPlayingAnim(PlayerPedId(), "anim_casino_b@amb@casino@games@shared@player@", idleVar, 3) ~= 1 then break end
 								end
 							end
 						end
@@ -1643,8 +1493,8 @@ function ProcessTables()
 end
 
 Citizen.CreateThread(function()
-
-	if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`s_f_y_casino_01`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
+	-- if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`s_f_y_casino_01`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
+	if IsModelInCdimage(`vw_prop_casino_3cardpoker_01`) and IsModelInCdimage(`s_f_y_casino_01`) then
 		Citizen.CreateThread(ProcessTables)
 		Citizen.CreateThread(CreatePeds)
 	else

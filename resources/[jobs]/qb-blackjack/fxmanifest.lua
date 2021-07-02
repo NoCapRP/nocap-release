@@ -6,13 +6,16 @@ description 'Playable Blackjack at the casino, similar to GTAOnline.'
 author 'Xinerki - https://github.com/Xinerki/'
 url 'https://github.com/Xinerki/ACG-blackjack'
 
-shared_script 'coords.lua'
+shared_scripts {
+	'coords.lua',
+	'@qb-core/import.lua'
+}
+
 client_script 'timerbars.lua'
 client_script 'client.lua'
 server_script 'server.lua'
 
--- data_file 'DLC_ITYP_REQUEST' 'stream/tables/vw_prop_vw_tables.ityp'
--- data_file 'DLC_ITYP_REQUEST' 'stream/cards/vw_prop_vw_cards.ityp'
+data_file 'DLC_ITYP_REQUEST' 'stream/cards/vw_prop_vw_cards.ityp'
 data_file "PED_METADATA_FILE" "peds.meta"
 
 data_file 'AUDIO_GAMEDATA' 'audio/dlcvinewood_game.dat'
