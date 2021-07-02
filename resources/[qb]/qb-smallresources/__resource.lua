@@ -38,6 +38,7 @@ client_scripts {
 	"client/vehpush.lua",
 	"client/scaleform.lua",
 	"client/report.lua",
+	"client/handsupkey.lua",
 }
 
 data_file 'FIVEM_LOVES_YOU_4B38E96CC036038F' 'events.meta'

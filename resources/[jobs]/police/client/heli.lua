@@ -10,12 +10,12 @@ local speed_ud = 3.0 -- speed by which the camera pans up-down
 local toggle_helicam = 51 -- control id of the button by which to toggle the helicam mode. Default: INPUT_CONTEXT (E)
 local toggle_vision = 25 -- control id to toggle vision mode. Default: INPUT_AIM (Right mouse btn)
 local toggle_rappel = 154 -- control id to rappel out of the heli. Default: INPUT_DUCK (X)
-local toggle_spotlight = Keys["H"] -- control id to toggle the front spotlight Default: INPUT_PhoneCameraGrid (G)
+local toggle_spotlight = 74 -- control id to toggle the front spotlight Default: INPUT_PhoneCameraGrid (G)
 local toggle_lock_on = 22 -- control id to lock onto a vehicle with the camera. Default is INPUT_SPRINT (spacebar)
 
 -- Script starts here
 local helicam = false
-local polmav_hash = GetHashKey("polmav")
+local polmav_hash = GetHashKey("pzulu")
 local fov = (fov_max+fov_min)*0.5
 local vision_state = 0 -- 0 is normal, 1 is nightmode, 2 is thermal vision
 
@@ -30,9 +30,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if isLoggedIn then
-			if PlayerJob.name == 'police' or PlayerJob.name == 'police1' or PlayerJob.name == 'police2' or PlayerJob.name == 'police3' or PlayerJob.name == 'police4' or PlayerJob.name == 'police5' or PlayerJob.name == 'police6' or PlayerJob.name == 'police7' or PlayerJob.name == 'police8' or PlayerJob.name == 'ems' or PlayerJob.name == 'ems1' or PlayerJob.name == 'ems2' or PlayerJob.name == 'ems3' or PlayerJob.name == 'ems4' or PlayerJob.name == 'ems5' or PlayerJob.name == 'ems6' or PlayerJob.name == 'ems7' or PlayerJob.name == 'ems8' and onDuty then
+			if PlayerJob.name == 'police' and onDuty then
 				if IsPlayerInPolmav() then
-					local lPed = GetPlayerPed(-1)
+					local lPed = PlayerPedId()
 					local heli = GetVehiclePedIsIn(lPed)
 					
 					if IsHeliHighEnough(heli) then
@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
 						if IsControlJustPressed(0, toggle_rappel) then -- Initiate rappel
 							if GetPedInVehicleSeat(heli, 1) == lPed or GetPedInVehicleSeat(heli, 2) == lPed then
 								PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-								TaskRappelFromHeli(GetPlayerPed(-1), 1)
+								TaskRappelFromHeli(PlayerPedId(), 1)
 							end
 						end
 					end
@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
 						while not HasScaleformMovieLoaded(scaleform) do
 							Citizen.Wait(0)
 						end
-						local lPed = GetPlayerPed(-1)
+						local lPed = PlayerPedId()
 						local heli = GetVehiclePedIsIn(lPed)
 						local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
 						AttachCamToEntity(cam, heli, 0.0,0.0,-1.5, true)
@@ -204,7 +204,7 @@ AddEventHandler('heli:spotlight', function(serverID, state)
 end)
 
 function IsPlayerInPolmav()
-	local lPed = GetPlayerPed(-1)
+	local lPed = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(lPed)
 	return IsVehicleModel(vehicle, polmav_hash)
 end
@@ -271,7 +271,7 @@ function GetVehicleInView(cam)
 	local coords = GetCamCoord(cam)
 	local forward_vector = RotAnglesToVec(GetCamRot(cam, 2))
 	--DrawLine(coords, coords+(forward_vector*100.0), 255,0,0,255) -- debug line to show LOS of cam
-	local rayhandle = CastRayPointToPoint(coords, coords+(forward_vector*400.0), 10, GetVehiclePedIsIn(GetPlayerPed(-1)), 0)
+	local rayhandle = CastRayPointToPoint(coords, coords+(forward_vector*400.0), 10, GetVehiclePedIsIn(PlayerPedId()), 0)
 	local _, _, _, _, entityHit = GetRaycastResult(rayhandle)
 	if entityHit>0 and IsEntityAVehicle(entityHit) then
 		return entityHit

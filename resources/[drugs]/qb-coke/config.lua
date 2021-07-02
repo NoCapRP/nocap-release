@@ -10,8 +10,8 @@ Config.price = 2000 -- amount you get after the run
 Config.amount = 2000 --amount you have to pay to start a run 
 Config.cokeTime = 60000 -- time in ms the effects of coke will last for
 Config.pickupTime = 5000 -- time it takes to pick up the delivery 
-Config.randBrick = math.random(1,8) -- change the numbers to how much coke you want players to receive after breaking down bricks
-Config.takeBrick = 1 -- amount of brick you want to take after processing
+Config.randBrick = math.random(5,5) -- change the numbers to how much coke you want players to receive after breaking down bricks
+Config.takeBrick = 5 -- amount of brick you want to take after processing
 Config.getCoords = false -- gets coords with /mycoords
 Config.pilotPed = "s_m_m_pilot_02" -- change this to have a different ped as the planes pilot - (lsit of peds: https://wiki.rage.mp/index.php?title=Peds)
 Config.landPlane = true -- change this if you want the plane to fly and land or if it should spawn on the ground

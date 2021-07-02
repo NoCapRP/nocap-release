@@ -5,7 +5,7 @@ RegisterServerEvent('RoutePizza:Payment')
 AddEventHandler('RoutePizza:Payment', function()
 	local _source = source
 	local Player = QBCore.Functions.GetPlayer(_source)
-    Player.Functions.AddMoney("cash", 1000, "sold-pizza")
+    Player.Functions.AddMoney("cash", 100, "sold-pizza")
     TriggerClientEvent("QBCore:Notify", _source, "You recieved $100", "success")
 end)
 

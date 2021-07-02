@@ -318,9 +318,9 @@ Citizen.CreateThread(function()
                                     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                         openMenu({
                                             {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender]},
-                                            {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
-                                            {menu = "character", label = "Character", selected = false},
-                                            {menu = "accessoires", label = "Accesories", selected = false}
+                                            {menu = "myOutfits", label = "My Outfits", selected = true, outfits = result},
+                                            {menu = "character", label = "Character", selected = true},
+                                            {menu = "accessoires", label = "Accesories", selected = true}
                                         })
                                         
                                     end)

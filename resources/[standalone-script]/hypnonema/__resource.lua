@@ -21,13 +21,13 @@ hypnonema_poster_url 'https://i.imgur.com/dPaIjEW.jpg'
 
 -- The command someone needs to enter for opening the menu
 -- Hint: no spaces, no special characters!
-hypnonema_command_name 'filmpie'
+hypnonema_command_name 'screendev'
 
 -- Only change if you know what you are doing!
 hypnonema_db_connString "Filename=hypnonema.db;Flush=true"
 
 -- Whether logging is enabled or not
-hypnonema_logging_enabled 'false'
+hypnonema_logging_enabled 'true'
 
 -- The sync interval in ms
 hypnonema_sync_interval '5000'
